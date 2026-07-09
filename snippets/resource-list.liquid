@@ -24,7 +24,7 @@
     %}
 
   Expected `settings` object properties:
-  - layout_type: 'grid' | 'bento' | 'carousel' | 'editorial'
+  - layout_type: 'grid' | 'bento' | 'carousel' | 'editorial' | 'masonry'
   - columns: Number of columns for grid/carousel
   - mobile_columns: Number of columns on mobile
   - columns_gap: Gap between columns in pixels
@@ -89,6 +89,13 @@
       capture resource_list_styles
         echo '--resource-list-column-gap-desktop: ' | append: columns_gap | append: 'px;'
       endcapture
+
+    when 'masonry'
+      assign resource_list_classes = 'resource-list--masonry'
+      capture resource_list_styles
+        echo '--resource-list-column-gap-desktop: ' | append: columns_gap | append: 'px;'
+        echo '--resource-list-row-gap-desktop: ' | append: rows_gap | append: 'px;'
+      endcapture
   endcase
 
   # Trim whitespace from styles
@@ -136,6 +143,9 @@
         {% else %}
           {% render 'editorial-collection-grid', items: list_items_array %}
       {% endcase %}
+
+    {% when 'masonry' %}
+      {% render 'masonry-product-grid', items: list_items_array %}
   {% endcase %}
 </div>
 

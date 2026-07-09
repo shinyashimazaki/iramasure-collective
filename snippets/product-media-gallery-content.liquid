@@ -67,6 +67,11 @@
     assign slideshow_controls_style = 'counter'
   endif
 
+  assign dual_desktop_gallery = false
+  if media_presentation == 'grid'
+    assign dual_desktop_gallery = true
+  endif
+
   assign render_slideshow_arrows = false
 
   if selected_product.media.size <= 1
@@ -77,6 +82,16 @@
     if media_presentation == 'carousel'
       assign render_slideshow_arrows = true
     endif
+  endif
+
+  if dual_desktop_gallery
+    assign slideshow_class = slideshow_class | append: ' product-media-gallery__slideshow--dual-desktop'
+  endif
+
+  assign dual_desktop_slideshow_attributes = ''
+  assign dual_desktop_icon_style = block_settings.icons_style
+  if dual_desktop_icon_style == blank or dual_desktop_icon_style == 'none'
+    assign dual_desktop_icon_style = 'chevron'
   endif
 
   if slideshow_controls_style == 'thumbnails'
@@ -120,6 +135,19 @@
   endif
   assign has_image_drop = sorted_media | has: 'media_type', 'image'
 
+  if sorted_media.size == 1
+    assign media_count_class = 'media-gallery--media-one'
+  elsif sorted_media.size == 2
+    assign media_count_class = 'media-gallery--media-two'
+  else
+    assign media_count_class = 'media-gallery--media-many'
+  endif
+
+  if dual_desktop_gallery and sorted_media.size > 2
+    assign render_slideshow_arrows = true
+    assign dual_desktop_slideshow_attributes = 'slide-step="1" slides-per-view="1.5"'
+  endif
+
   # Determine if we're in single column mode (carousel or grid with one column)
   assign is_single_column = false
   if media_presentation == 'carousel' or sorted_media.size == 1 or media_presentation == 'grid' and block_settings.media_columns == 'one'
@@ -142,10 +170,14 @@
   endif
 
   # Calculate sizes value for regular grid/carousel items
-  capture sizes
-    render 'util-product-media-sizes-attr', block: block, section: section, settings: settings, is_first_image: false, is_single_column: is_single_column, needs_both_sizes: needs_both_sizes
-  endcapture
-  assign sizes = sizes | strip
+  if dual_desktop_gallery and sorted_media.size > 2
+    assign sizes = '(min-width: 750px) calc((100vw - 25rem - 48px) / 1.5), 100vw'
+  else
+    capture sizes
+      render 'util-product-media-sizes-attr', block: block, section: section, settings: settings, is_first_image: false, is_single_column: is_single_column, needs_both_sizes: needs_both_sizes
+    endcapture
+    assign sizes = sizes | strip
+  endif
 
   assign product_media_container_class = 'product-media-container'
   if block_settings.constrain_to_viewport
@@ -349,6 +381,9 @@
       {% if block_settings.extend_media %}
         media-gallery--extend
       {% endif %}
+      {% if dual_desktop_gallery %}
+        media-gallery--dual-desktop {{ media_count_class }}
+      {% endif %}
     "
     style="{% render 'spacing-style', settings: block_settings %} --thumbnail-width: {{ block_settings.thumbnail_width }}px; --media-radius: {{ block_settings.media_radius }}px;{% if block_settings.icons_style contains 'large' %} --slideshow-icon-padding: 0px;{% endif %}--image-gap: {{ block_settings.image_gap }}px;{% unless block_settings.aspect_ratio == 'adapt' %} --gallery-aspect-ratio: {{ block_settings.aspect_ratio }};{% endunless %}"
     data-presentation="{{ media_presentation }}"
@@ -430,7 +465,15 @@
 
     {% if render_slideshow_arrows %}
       {% capture slideshow_arrows %}
-        {% render 'slideshow-arrows', class: 'mobile:hidden', icon_style: block_settings.icons_style %}
+        {% if dual_desktop_gallery and sorted_media.size > 2 %}
+          {% render 'slideshow-arrows',
+            class: 'mobile:hidden product-media-gallery__desktop-arrows',
+            icon_style: dual_desktop_icon_style,
+            arrows_position: 'center'
+          %}
+        {% else %}
+          {% render 'slideshow-arrows', class: 'mobile:hidden', icon_style: block_settings.icons_style %}
+        {% endif %}
       {% endcapture %}
     {% endif %}
 
@@ -441,7 +484,9 @@
       slide_count: sorted_media.size,
       slideshow_arrows: slideshow_arrows,
       arrows_position: icons_position,
-      controls: controls
+      controls: controls,
+      infinite: false,
+      attributes: dual_desktop_slideshow_attributes
     %}
 
     {% if media_presentation == 'grid' %}
@@ -690,7 +735,6 @@
   .dialog-thumbnails-list__thumbnail {
     width: var(--thumbnail-width);
     height: auto;
-    transition: transform var(--animation-speed) var(--animation-easing);
     flex-shrink: 0;
     border-radius: var(--media-radius);
 
@@ -725,9 +769,7 @@
 
     @media (prefers-reduced-motion: no-preference) {
       .dialog-thumbnails-list:has(.dialog-thumbnails-list__thumbnail:is([aria-selected='true']))::after {
-        transition-property: inset;
-        transition-duration: var(--spring-d180-b0-duration);
-        transition-timing-function: var(--spring-d180-b0-easing);
+        transition: none;
       }
     }
 

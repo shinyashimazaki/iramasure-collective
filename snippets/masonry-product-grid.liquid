@@ -1,0 +1,248 @@
+{%- doc -%}
+  Renders a 4-column product grid: outer columns with two stacked items (3:4),
+  center spans two columns and two rows (AGOBAY-style layout).
+  Repeats every 5 products.
+
+  Mobile: center item first (full width), then remaining 4 in a 2-column grid.
+
+  @param {object} items - An array of HTML strings for the product list items
+
+  @example
+  {% render 'masonry-product-grid', items: items %}
+{%- enddoc -%}
+
+{% liquid
+  assign items_count = items.size | default: 0
+  assign group_count = items_count | plus: 4 | divided_by: 5
+%}
+
+<div class="masonry-product__grid">
+  {% for g in (1..group_count) %}
+    {% liquid
+      assign group_index = g | minus: 1
+      assign row_start = group_index | times: 2 | plus: 1
+      assign idx0 = group_index | times: 5
+      assign idx1 = idx0 | plus: 1
+      assign idx2 = idx0 | plus: 2
+      assign idx3 = idx0 | plus: 3
+      assign idx4 = idx0 | plus: 4
+    %}
+    <div
+      class="masonry-product__group"
+      style="--masonry-row-start: {{ row_start }};"
+    >
+      {% if idx2 < items_count %}
+        <div class="masonry-product__item masonry-product__item--center masonry-product__item--pos-2">
+          {{ items[idx2] }}
+        </div>
+      {% endif %}
+
+      <div class="masonry-product__sides">
+        {% if idx0 < items_count %}
+          <div class="masonry-product__item masonry-product__item--side masonry-product__item--pos-0">
+            {{ items[idx0] }}
+          </div>
+        {% endif %}
+        {% if idx1 < items_count %}
+          <div class="masonry-product__item masonry-product__item--side masonry-product__item--pos-1">
+            {{ items[idx1] }}
+          </div>
+        {% endif %}
+        {% if idx3 < items_count %}
+          <div class="masonry-product__item masonry-product__item--side masonry-product__item--pos-3">
+            {{ items[idx3] }}
+          </div>
+        {% endif %}
+        {% if idx4 < items_count %}
+          <div class="masonry-product__item masonry-product__item--side masonry-product__item--pos-4">
+            {{ items[idx4] }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% stylesheet %}
+  .masonry-product__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-auto-rows: 1fr;
+    grid-gap: var(--resource-list-row-gap, 28px) var(--resource-list-column-gap, 28px);
+    gap: var(--resource-list-row-gap, 28px) var(--resource-list-column-gap, 28px);
+    width: 100%;
+  }
+
+  .masonry-product__group,
+  .masonry-product__sides {
+    display: contents;
+  }
+
+  .masonry-product__item {
+    min-width: 0;
+  }
+
+  .masonry-product__item--pos-0 {
+    grid-column: 1;
+    grid-row: var(--masonry-row-start);
+  }
+
+  .masonry-product__item--pos-1 {
+    grid-column: 1;
+    grid-row: calc(var(--masonry-row-start) + 1);
+  }
+
+  .masonry-product__item--pos-2 {
+    grid-column: 2 / span 2;
+    grid-row: var(--masonry-row-start) / span 2;
+  }
+
+  .masonry-product__item--pos-3 {
+    grid-column: 4;
+    grid-row: var(--masonry-row-start);
+  }
+
+  .masonry-product__item--pos-4 {
+    grid-column: 4;
+    grid-row: calc(var(--masonry-row-start) + 1);
+  }
+
+  /* 左右: グリッドセルに引き伸ばさず、列幅ベースで 3:4（縦長） */
+  .masonry-product__item--side {
+    align-self: start;
+  }
+
+  .masonry-product__item--side .resource-list__item,
+  .masonry-product__item--side .product-card {
+    width: 100%;
+    height: auto;
+  }
+
+  .masonry-product__item--side .card-gallery {
+    width: 100%;
+    height: auto;
+    /* stylelint-disable-next-line declaration-no-important */
+    --gallery-aspect-ratio: 3 / 4 !important;
+    aspect-ratio: 3 / 4;
+  }
+
+  .masonry-product__item--side .product-media-container {
+    aspect-ratio: 3 / 4;
+  }
+
+  .masonry-product__item--side .product-media-container.media-fit img {
+    object-fit: cover;
+  }
+
+  /* 中央: 左右2枚分の高さに合わせて伸長 */
+  .masonry-product__item--center {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .masonry-product__item--center .resource-list__item,
+  .masonry-product__item--center .product-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .masonry-product__item--center .card-gallery {
+    flex: 1;
+    min-height: 0;
+    /* stylelint-disable-next-line declaration-no-important */
+    --gallery-aspect-ratio: 99 !important;
+    height: 100%;
+  }
+
+  .masonry-product__item--center .card-gallery,
+  .masonry-product__item--center slideshow-component,
+  .masonry-product__item--center slideshow-container,
+  .masonry-product__item--center slideshow-slides,
+  .masonry-product__item--center .product-media-container,
+  .masonry-product__item--center .product-media__image {
+    height: 100%;
+  }
+
+  .masonry-product__item--center .product-media-container {
+    aspect-ratio: unset;
+  }
+
+  .masonry-product__item--center .product-media-container.media-fit img {
+    object-fit: cover;
+  }
+
+  .resource-list--masonry .product-grid-view-zoom-out--details {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .masonry-product__grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--resource-list-row-gap, 28px);
+    }
+
+    .masonry-product__group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--resource-list-row-gap, 28px) var(--resource-list-column-gap, 28px);
+    }
+
+    .masonry-product__sides {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column: 1 / -1;
+      gap: var(--resource-list-row-gap, 28px) var(--resource-list-column-gap, 28px);
+    }
+
+    .masonry-product__item--pos-0,
+    .masonry-product__item--pos-1,
+    .masonry-product__item--pos-2,
+    .masonry-product__item--pos-3,
+    .masonry-product__item--pos-4 {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    .masonry-product__item--center {
+      grid-column: 1 / -1;
+      align-self: start;
+      display: block;
+    }
+
+    .masonry-product__item--center .resource-list__item,
+    .masonry-product__item--center .product-card {
+      height: auto;
+    }
+
+    .masonry-product__item--side .card-gallery {
+      aspect-ratio: 3 / 4;
+    }
+
+    .masonry-product__item--center .card-gallery {
+      /* stylelint-disable-next-line declaration-no-important */
+      --gallery-aspect-ratio: 4 / 5 !important;
+      aspect-ratio: 4 / 5;
+      height: auto;
+      flex: none;
+    }
+
+    .masonry-product__item--center .card-gallery,
+    .masonry-product__item--center slideshow-component,
+    .masonry-product__item--center slideshow-container,
+    .masonry-product__item--center slideshow-slides,
+    .masonry-product__item--center .product-media-container,
+    .masonry-product__item--center .product-media__image {
+      height: auto;
+    }
+
+    .masonry-product__item--center .product-media-container {
+      aspect-ratio: 4 / 5;
+    }
+  }
+{% endstylesheet %}

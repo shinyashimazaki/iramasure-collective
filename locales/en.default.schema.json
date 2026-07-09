@@ -117,6 +117,7 @@
     "resource_reference_product": "Auto connects to parent product",
     "resource_reference_product_card": "Displays product from parent section",
     "resource_reference_product_inventory": "Displays inventory from parent product",
+    "product_ingredients_table": "Displays ingredient data from product metafields. Preferred: custom.ingredients_table (JSON). Alternative: custom.ingredients (rich text with table). Example JSON: [{\"label\":\"名称\",\"value\":\"Matcha\"},{\"label\":\"内容量\",\"value\":\"30g\"}]",
     "resource_reference_product_media": "Displays media from parent product",
     "resource_reference_product_price": "Displays price from parent product",
     "resource_reference_product_recommendations": "Displays recommendations based on parent product",
@@ -391,6 +392,7 @@
     "products_editorial": "Featured collection: Editorial",
     "products_grid": "Featured collection: Grid",
     "product_inventory": "Product inventory",
+    "product_ingredients_table": "Ingredients table",
     "product_custom_property": "Special instructions",
     "pull_quote": "Pull quote",
     "quantity": "Quantity",
@@ -512,6 +514,7 @@
     // Icon for laundry care symbol (machine dry)
     "dryer": "Dryer",
     "editorial": "Editorial",
+    "masonry": "Masonry (3 columns)",
     // Text alignment option for end of reading direction
     "end": "End",
     "extra_large": "Extra large",
@@ -1085,6 +1088,7 @@
     "show_filter_label": "Text labels for applied filters",
     "show_grid_layout_selector": "Show grid layout selector",
     "show_inventory_quantity": "Show low stock quantity",
+    "show_heading": "Show heading",
     "show_pickup_availability": "Show pickup availability",
     "show_powered_by_shopify": "Show \"Powered by Shopify\"",
     "show_sale_price_first": "Show sale price first",

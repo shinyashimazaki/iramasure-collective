@@ -2,6 +2,19 @@
 
 {% assign product = closest.product %}
 
+{% liquid
+  assign product_is_new = false
+  unless product == blank
+    for tag in product.tags
+      assign tag_downcase = tag | downcase
+      if tag_downcase == 'new'
+        assign product_is_new = true
+        break
+      endif
+    endfor
+  endunless
+%}
+
 {% capture children %}
   {% unless product == blank %}
     <div
@@ -11,23 +24,28 @@
         --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
       "
     >
-      {%- if product.available == false or product.compare_at_price > product.price -%}
+      {%- if product.available == false or product.compare_at_price > product.price or product_is_new -%}
         <div
           class="
             product-badges__badge product-badges__badge--rectangle
-            {% if product.available == false %} color-{{ settings.badge_sold_out_color_scheme }}{% elsif product.compare_at_price > product.price %} color-{{ settings.badge_sale_color_scheme }}{% endif %}
+            {% if product.available == false %} color-{{ settings.badge_sold_out_color_scheme }}{% elsif product.compare_at_price > product.price %} color-{{ settings.badge_sale_color_scheme }}{% else %} color-{{ settings.badge_sale_color_scheme }}{% endif %}
           "
         >
           {%- if product.available == false -%}
             {{ 'content.product_badge_sold_out' | t }}
           {%- elsif product.compare_at_price > product.price -%}
             {{ 'content.product_badge_sale' | t }}
+          {%- elsif product_is_new -%}
+            {{ 'content.product_badge_new' | t }}
           {%- endif -%}
         </div>
       {%- endif -%}
     </div>
     {%  if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add', product: product, section_id: section.id %}
+    {% endif %}
+    {% if section.settings.layout_type == 'masonry' %}
+      <p class="product-card-gallery__overlay-title">{{ product.title }}</p>
     {% endif %}
   {% endunless %}
 {% endcapture %}
@@ -44,6 +62,31 @@
 </div>
 
 {% render 'product-badges-styles' %}
+
+{% stylesheet %}
+  .product-card-gallery__overlay-title {
+    position: absolute;
+    z-index: var(--layer-flat);
+    bottom: var(--padding-sm);
+    left: var(--padding-sm);
+    margin: 0;
+    max-width: calc(100% - var(--padding-sm) * 2);
+    font-size: var(--font-size--xs);
+    line-height: var(--line-height--body-tight);
+    font-weight: var(--font-body--weight);
+    color: #000;
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-card-gallery__overlay-title {
+      font-size: var(--font-size--sm);
+      bottom: var(--padding-md);
+      left: var(--padding-md);
+      max-width: calc(100% - var(--padding-md) * 2);
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

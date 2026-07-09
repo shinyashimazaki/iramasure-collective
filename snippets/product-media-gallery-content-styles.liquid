@@ -21,12 +21,153 @@
     }
 
     /* Display grid view as a carousel on mobile, grid on desktop */
-    media-gallery:is(.media-gallery--grid) slideshow-component {
+    media-gallery:is(.media-gallery--grid):not(.media-gallery--dual-desktop) slideshow-component {
       display: none;
     }
 
-    media-gallery:where(.media-gallery--grid) .media-gallery__grid {
+    media-gallery:where(.media-gallery--grid):not(.media-gallery--dual-desktop) .media-gallery__grid {
       display: grid;
+    }
+
+    /* Dual desktop: 1 image — single column grid */
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-one:is(.media-gallery--grid) slideshow-component {
+      display: none;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-one:where(.media-gallery--grid) .media-gallery__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    /* Dual desktop: 2 images — side by side grid, no slide */
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-two:is(.media-gallery--grid) slideshow-component {
+      display: none;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-two:where(.media-gallery--grid) .media-gallery__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Dual desktop: 3+ images — 1.5-up slideshow (1 full + next half peek) */
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many:is(.media-gallery--grid) slideshow-component {
+      display: block;
+      --slideshow-gap: var(--image-gap, 4px);
+      --product-gallery-slides-per-view: 1.5;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many:where(.media-gallery--grid) .media-gallery__grid {
+      display: none;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many slideshow-component slideshow-slide {
+      --slide-width: calc((100% - var(--slideshow-gap, 0px)) / var(--product-gallery-slides-per-view, 1.5));
+      scroll-snap-align: start;
+      content-visibility: visible;
+    }
+
+    media-gallery.media-gallery--dual-desktop slideshow-slide.product-media-container,
+    media-gallery.media-gallery--dual-desktop .media-gallery__grid .product-media-container {
+      aspect-ratio: 3 / 4;
+    }
+
+    /* PC: 画面の高さではなくスライド幅でサイズを決める（大画面で画像も大きくなる） */
+    media-gallery.media-gallery--dual-desktop .product-media-container.constrain-height {
+      --constrained-height: none;
+      max-height: none;
+      width: var(--slide-width, 100%);
+      height: auto;
+      margin-inline: 0;
+    }
+
+    media-gallery.media-gallery--dual-desktop .product-media-container.constrain-height:has(.product-media-constraint-wrapper) {
+      display: block;
+    }
+
+    media-gallery.media-gallery--dual-desktop .product-media-constraint-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    media-gallery.media-gallery--dual-desktop slideshow-slide.product-media-container .product-media,
+    media-gallery.media-gallery--dual-desktop slideshow-slide.product-media-container .product-media__image,
+    media-gallery.media-gallery--dual-desktop .media-gallery__grid .product-media-container .product-media__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows {
+      --product-gallery-arrow-size: 16px;
+      --product-gallery-arrow-stroke: 2px;
+      mix-blend-mode: difference;
+      align-items: center;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows .slideshow-control {
+      position: relative;
+      animation: none;
+      transform: none;
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows .slideshow-control.flip-x {
+      scale: none;
+      transform: none;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows .slideshow-control .svg-wrapper {
+      display: none;
+    }
+
+    /* Solid chevron arrows — 2px square strokes via pseudo-element */
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows .slideshow-control::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--product-gallery-arrow-size);
+      height: var(--product-gallery-arrow-size);
+      margin-top: calc(var(--product-gallery-arrow-size) / -2);
+      margin-left: calc(var(--product-gallery-arrow-size) / -2);
+      border: var(--product-gallery-arrow-stroke) solid currentColor;
+      border-radius: 0;
+      box-sizing: border-box;
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows .slideshow-control--previous::before {
+      border-right: none;
+      border-top: none;
+      transform: rotate(45deg);
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows .slideshow-control--next::before {
+      border-left: none;
+      border-bottom: none;
+      transform: rotate(45deg);
+    }
+
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many .product-media-gallery__desktop-arrows .slideshow-control[disabled] {
+      opacity: 0.25;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* Disable default hover slide-in animation (base.css arrowsSlideIn) */
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many:not(.media-gallery--carousel)
+      > slideshow-component:hover
+      > slideshow-container
+      > slideshow-arrows
+      .slideshow-control,
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many:not(.media-gallery--carousel)
+      > slideshow-component:focus-within
+      > slideshow-container
+      > slideshow-arrows
+      .slideshow-control {
+      animation: none;
+      transform: none;
     }
   }
 

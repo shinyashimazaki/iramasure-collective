@@ -428,8 +428,12 @@ export class Slideshow extends Component {
       controls?.forEach((el, i) => el.setAttribute('aria-selected', `${i === value}`));
     }
 
-    if (previous) previous.disabled = Boolean(!this.infinite && value === 0);
-    if (next) next.disabled = Boolean(!this.infinite && slides && this.nextIndex >= slides.length);
+    if (previous) previous.disabled = Boolean(!this.infinite && value <= 0);
+
+    if (next && slides) {
+      const maxStartIndex = this.#getMaxStartIndex();
+      next.disabled = Boolean(!this.infinite && value >= maxStartIndex);
+    }
   }
 
   get infinite() {
@@ -440,18 +444,57 @@ export class Slideshow extends Component {
     return this.#visibleSlides;
   }
 
-  get previousIndex() {
-    const { current, visibleSlides } = this;
-    const modifier = visibleSlides.length > 1 ? visibleSlides.length : 1;
+  /**
+   * @returns {number}
+   */
+  #getSlidesPerView() {
+    const value = parseFloat(this.getAttribute('slides-per-view') ?? '1');
 
-    return current - modifier;
+    if (Number.isNaN(value) || value <= 0) {
+      return 1;
+    }
+
+    return value;
+  }
+
+  /**
+   * @returns {number}
+   */
+  #getMaxStartIndex() {
+    const { slides } = this;
+
+    if (!slides?.length) return 0;
+
+    const slidesPerView = this.#getSlidesPerView();
+
+    if (slidesPerView > 1) {
+      return Math.max(0, Math.floor(slides.length - slidesPerView));
+    }
+
+    const visibleCount = Math.max(this.visibleSlides.length, 1);
+    return Math.max(0, slides.length - visibleCount);
+  }
+
+  /**
+   * @returns {number}
+   */
+  #getSlideStep() {
+    const attributeStep = parseInt(this.getAttribute('slide-step') ?? '', 10);
+
+    if (!Number.isNaN(attributeStep) && attributeStep > 0) {
+      return attributeStep;
+    }
+
+    const visibleCount = this.visibleSlides.length;
+    return visibleCount > 1 ? visibleCount : 1;
+  }
+
+  get previousIndex() {
+    return this.current - this.#getSlideStep();
   }
 
   get nextIndex() {
-    const { current, visibleSlides } = this;
-    const modifier = visibleSlides.length > 1 ? visibleSlides.length : 1;
-
-    return current + modifier;
+    return this.current + this.#getSlideStep();
   }
 
   get atStart() {

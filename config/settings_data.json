@@ -74,6 +74,8 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "show_second_image_on_hover": true,
+    "product_card_carousel": false,
     "color_schemes": {
       "scheme-1": {
         "settings": {

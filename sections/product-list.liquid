@@ -120,6 +120,10 @@
         {
           "value": "editorial",
           "label": "t:options.editorial"
+        },
+        {
+          "value": "masonry",
+          "label": "t:options.masonry"
         }
       ],
       "default": "grid"
@@ -148,7 +152,7 @@
       "max": 8,
       "step": 1,
       "default": 4,
-      "visible_if": "{{ section.settings.layout_type != 'editorial' }}"
+      "visible_if": "{{ section.settings.layout_type != 'editorial' and section.settings.layout_type != 'masonry' }}"
     },
     {
       "type": "select",
@@ -193,7 +197,7 @@
       "step": 1,
       "unit": "px",
       "default": 8,
-      "visible_if": "{{ section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel' }}"
+      "visible_if": "{{ section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel' or section.settings.layout_type == 'masonry' }}"
     },
     {
       "type": "range",

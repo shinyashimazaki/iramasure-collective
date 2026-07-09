@@ -20,6 +20,15 @@
     if product.available == false or product.compare_at_price > product.price
       assign has_badges = true
       assign badge_position = settings.badge_position
+    else
+      for tag in product.tags
+        assign tag_downcase = tag | downcase
+        if tag_downcase == 'new'
+          assign has_badges = true
+          assign badge_position = settings.badge_position
+          break
+        endif
+      endfor
     endif
   endif
 
@@ -61,18 +70,44 @@
       assign media_fit = block_settings.constrain_to_viewport
     endif
   endif
+
+  assign enable_hover_preview = false
+  if settings.show_second_image_on_hover and product != blank and product.media.size > 1
+    assign variant_image_srcs = product.images | where: 'attached_to_variant?', true | map: 'src'
+    assign hover_other_media = product.media | reject: 'src', product.featured_media
+    assign hover_media_list = product.featured_media | concat: hover_other_media
+    assign hover_visible_count = 0
+
+    for media in hover_media_list
+      assign slide_hidden = false
+      if variant_image_srcs contains media.src
+        unless forloop.first
+          assign slide_hidden = true
+        endunless
+      endif
+
+      unless slide_hidden
+        assign hover_visible_count = hover_visible_count | plus: 1
+      endunless
+
+      if hover_visible_count >= 2
+        assign enable_hover_preview = true
+        break
+      endif
+    endfor
+  endif
 %}
 
 <div
   ref="cardGallery"
-  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}"
+  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}{% if enable_hover_preview %} card-gallery--hover-fade{% endif %}"
   style="
     {% render 'border-override', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
     --gallery-aspect-ratio: {{ ratio }};
   "
   data-product-id="{{ product.id }}"
-  {% if settings.show_second_image_on_hover %}
+  {% if enable_hover_preview %}
     on:pointerenter="/previewImage"
     on:pointerleave="/resetImage"
   {% endif %}
@@ -94,7 +129,7 @@
       assign other_media = product.media | reject: 'src', product.featured_media
       assign media_list_to_show = product.featured_media | concat: other_media
 
-      if product.media.size > 2 and generic_media_size > 0
+      if product.media.size > 2 and generic_media_size > 0 and settings.product_card_carousel
         assign show_arrows = true
       endif
 
@@ -153,7 +188,7 @@
       endcapture
 
       assign slideshow_attributes = 'data-generic-media-size="[generic_media_size]"' | replace: '[generic_media_size]', generic_media_size
-      if settings.product_card_carousel == false
+      if settings.product_card_carousel == false and settings.show_second_image_on_hover == false
         assign slideshow_attributes = slideshow_attributes | append: ' disabled="true"'
       endif
     %}
@@ -386,6 +421,39 @@
 
     @container (max-width: 249px) {
       padding-inline: 0 var(--padding-sm);
+    }
+  }
+
+  .card-gallery--hover-fade slideshow-slides {
+    display: grid;
+    overflow: hidden;
+  }
+
+  .card-gallery--hover-fade slideshow-slide {
+    grid-area: 1 / 1;
+    width: 100%;
+    transition: opacity 0.35s ease;
+  }
+
+  .card-gallery--hover-fade slideshow-slide:first-child {
+    opacity: 1;
+  }
+
+  .card-gallery--hover-fade slideshow-slide:not(:first-child) {
+    opacity: 0;
+  }
+
+  .card-gallery--hover-fade:hover slideshow-slide:first-child {
+    opacity: 0;
+  }
+
+  .card-gallery--hover-fade:hover slideshow-slide:nth-child(2) {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-gallery--hover-fade slideshow-slide {
+      transition: none;
     }
   }
 
