@@ -90,6 +90,9 @@
               "type": "_product-list-text",
               "settings": {
                 "text": "<h2>お茶</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
                 "type_preset": "h4",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -97,14 +100,16 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -153,7 +158,10 @@
       "settings": {
         "product_source": "manual",
         "collection": "all",
-        "products": [],
+        "products": [
+          "matcha",
+          "houjicha"
+        ],
         "layout_type": "grid",
         "show_overlay_title": true,
         "carousel_on_mobile": false,
@@ -274,6 +282,9 @@
               "type": "_product-list-text",
               "settings": {
                 "text": "<h3>単品</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
                 "type_preset": "h5",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -281,14 +292,16 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -337,7 +350,11 @@
       "settings": {
         "product_source": "manual",
         "collection": "all",
-        "products": [],
+        "products": [
+          "matcha-bowl-oribe-saika",
+          "matcha-bowl-コピー",
+          "matcha-bowl-kokuyo"
+        ],
         "layout_type": "grid",
         "show_overlay_title": true,
         "carousel_on_mobile": false,
@@ -397,6 +414,9 @@
               "type": "_product-list-text",
               "settings": {
                 "text": "<h3>セット</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
                 "type_preset": "h5",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -404,14 +424,16 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -460,7 +482,11 @@
       "settings": {
         "product_source": "manual",
         "collection": "all",
-        "products": [],
+        "products": [
+          "matcha-bowl-set-コピー",
+          "matcha-bowl-oribe-shirotake-matcha-whisk",
+          "matcha-bowl-oribe-matcha-whisk"
+        ],
         "layout_type": "grid",
         "show_overlay_title": true,
         "carousel_on_mobile": false,
@@ -581,6 +607,9 @@
               "type": "_product-list-text",
               "settings": {
                 "text": "<h3>バッグ</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
                 "type_preset": "h5",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -588,14 +617,16 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -644,7 +675,10 @@
       "settings": {
         "product_source": "manual",
         "collection": "all",
-        "products": [],
+        "products": [
+          "iramasure-pouch-big-コピー",
+          "iramasure-pouch-small-コピー"
+        ],
         "layout_type": "grid",
         "show_overlay_title": true,
         "carousel_on_mobile": false,
@@ -704,6 +738,9 @@
               "type": "_product-list-text",
               "settings": {
                 "text": "<h3>肩紐（オプション）</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
                 "type_preset": "h5",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -711,14 +748,16 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -767,7 +806,9 @@
       "settings": {
         "product_source": "manual",
         "collection": "all",
-        "products": [],
+        "products": [
+          "iramasure-pouch-small-コピー"
+        ],
         "layout_type": "grid",
         "show_overlay_title": true,
         "carousel_on_mobile": false,
