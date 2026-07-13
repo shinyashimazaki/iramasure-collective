@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "product_list_fa6P9H": {
       "type": "product-list",
@@ -44,8 +45,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "block_order": []
+          "blocks": {}
         },
         "static-product-card": {
           "type": "_product-card",
@@ -91,7 +91,13 @@
       "settings": {
         "product_source": "manual",
         "collection": "all",
-        "products": [],
+        "products": [
+          "matcha",
+          "houjicha",
+          "iramasure-pouch-big-コピー",
+          "matcha-bowl-コピー",
+          "matcha-bowl-oribe-shirotake-matcha-whisk"
+        ],
         "layout_type": "masonry",
         "carousel_on_mobile": false,
         "max_products": 5,
@@ -112,7 +118,6 @@
     },
     "featured_blog_home": {
       "type": "featured-blog-posts",
-      "disabled": true,
       "blocks": {
         "static-blog-title": {
           "type": "_featured-blog-posts-title",
@@ -145,7 +150,20 @@
           "type": "_featured-blog-posts-card",
           "name": "t:names.blog_card",
           "static": true,
-          "settings": {},
+          "settings": {
+            "alignment": "left",
+            "gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
           "blocks": {
             "image": {
               "type": "_featured-blog-posts-image",
@@ -165,8 +183,22 @@
               "name": "t:names.title",
               "static": true,
               "settings": {
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
                 "text": "<h4>{{ closest.article.title }}</h4>",
-                "show_alignment": false
+                "read_only": false,
+                "alignment": "left",
+                "show_alignment": false,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -177,9 +209,11 @@
               "settings": {
                 "show_date": true,
                 "show_author": false,
+                "type_preset": "",
+                "alignment": "left",
+                "show_alignment": false,
                 "padding-block-start": 0,
-                "padding-block-end": 0,
-                "show_alignment": false
+                "padding-block-end": 0
               },
               "blocks": {}
             },
@@ -188,6 +222,14 @@
               "name": "t:names.excerpt",
               "static": true,
               "settings": {
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
                 "padding-block-start": 8,
                 "padding-block-end": 0
               },
@@ -197,6 +239,7 @@
           "block_order": []
         }
       },
+      "disabled": true,
       "name": "t:names.blog_posts",
       "settings": {
         "blog": "",
@@ -205,11 +248,11 @@
         "post_limit": 3,
         "columns": 3,
         "mobile_columns": "1",
+        "mobile_card_size": "60cqw",
         "columns_gap": 28,
         "rows_gap": 28,
         "icons_style": "arrow",
         "icons_shape": "none",
-        "mobile_card_size": "60cqw",
         "section_width": "page-width",
         "gap": 28,
         "color_scheme": "scheme-1",
