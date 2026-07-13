@@ -261,6 +261,7 @@
     "inherit_color_scheme": "配色を継承する",
     "product_count": "商品数",
     "product_source": "商品の取得方法",
+    "show_overlay_title": "画像上に商品名を表示",
     "product_type": "商品タイプ",
     "content_width": "コンテンツの幅",
     "collection": "コレクション",

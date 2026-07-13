@@ -166,6 +166,13 @@
     },
     {
       "type": "checkbox",
+      "id": "show_overlay_title",
+      "label": "t:settings.show_overlay_title",
+      "default": false,
+      "visible_if": "{{ section.settings.layout_type == 'grid' or section.settings.layout_type == 'masonry' }}"
+    },
+    {
+      "type": "checkbox",
       "id": "carousel_on_mobile",
       "label": "t:settings.carousel_on_mobile",
       "default": false,

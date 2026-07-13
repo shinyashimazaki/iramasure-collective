@@ -44,7 +44,7 @@
     {%  if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add', product: product, section_id: section.id %}
     {% endif %}
-    {% if section.settings.layout_type == 'masonry' %}
+    {% if section.settings.layout_type == 'masonry' or section.settings.show_overlay_title %}
       <p class="product-card-gallery__overlay-title">{{ product.title }}</p>
     {% endif %}
   {% endunless %}
