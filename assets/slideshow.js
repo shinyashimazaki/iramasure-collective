@@ -468,6 +468,11 @@ export class Slideshow extends Component {
     const slidesPerView = this.#getSlidesPerView();
 
     if (slidesPerView > 1) {
+      // Fractional slides-per-view (e.g. 1.5) needs end padding in CSS so the last slide can scroll fully into view.
+      if (slidesPerView % 1 !== 0) {
+        return Math.max(0, slides.length - 1);
+      }
+
       return Math.max(0, Math.floor(slides.length - slidesPerView));
     }
 

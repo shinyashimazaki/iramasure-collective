@@ -515,6 +515,7 @@
     "dryer": "Dryer",
     "editorial": "Editorial",
     "masonry": "Masonry (3 columns)",
+    "manual_selection": "Manual selection",
     // Text alignment option for end of reading direction
     "end": "End",
     "extra_large": "Extra large",
@@ -536,6 +537,7 @@
     "font_tertiary": "Tertiary",
     // Animation direction option for marquee scrolling
     "forward": "Forward",
+    "from_collection": "From collection",
     // Width setting: full viewport width vs page width
     "full": "Full",
     "full_and_page": "Full background, page-width content",
@@ -1017,6 +1019,7 @@
     "product_card_carousel": "Show carousel",
     "product_cards": "Product cards",
     "product_count": "Product count",
+    "product_source": "Product source",
     "product_pages": "Product pages",
     "product_templates": "Product templates",
     // Setting label for text capitalization of product titles

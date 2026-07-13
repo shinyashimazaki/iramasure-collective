@@ -89,7 +89,9 @@
       },
       "name": "Featured collection",
       "settings": {
+        "product_source": "manual",
         "collection": "all",
+        "products": [],
         "layout_type": "masonry",
         "carousel_on_mobile": false,
         "max_products": 5,
@@ -110,6 +112,7 @@
     },
     "featured_blog_home": {
       "type": "featured-blog-posts",
+      "disabled": true,
       "blocks": {
         "static-blog-title": {
           "type": "_featured-blog-posts-title",

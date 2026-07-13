@@ -66,6 +66,11 @@
       content-visibility: visible;
     }
 
+    /* 最後の1枚を全幅表示できるよう、末尾スライドの後に半枚分の余白を追加 */
+    media-gallery.media-gallery--dual-desktop.media-gallery--media-many slideshow-slide:last-child {
+      margin-inline-end: calc((100% - var(--slideshow-gap, 0px)) / (2 * var(--product-gallery-slides-per-view, 1.5)));
+    }
+
     media-gallery.media-gallery--dual-desktop slideshow-slide.product-media-container,
     media-gallery.media-gallery--dual-desktop .media-gallery__grid .product-media-container {
       aspect-ratio: 3 / 4;
