@@ -67,7 +67,7 @@
   .product-card-gallery__overlay-title {
     position: absolute;
     z-index: var(--layer-flat);
-    bottom: var(--padding-sm);
+    bottom: var(--padding-md);
     left: var(--padding-sm);
     margin: 0;
     max-width: calc(100% - var(--padding-sm) * 2);
@@ -76,6 +76,19 @@
     font-weight: var(--font-body--weight);
     color: #000;
     pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-card-gallery__overlay-title {
+      bottom: 1rem;
+      left: var(--padding-sm);
+      max-width: calc(100% - var(--padding-sm) * 2);
+    }
+
+    /* 画像下にタイトルがあるカードで、画像とタイトルの間隔を確保 */
+    .product-card__content > .card-gallery:not(:last-child) {
+      margin-block-end: 0.5rem;
+    }
   }
 
   @media screen and (min-width: 750px) {
