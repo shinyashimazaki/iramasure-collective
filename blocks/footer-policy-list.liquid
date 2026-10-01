@@ -27,7 +27,7 @@
         "
       >
         {%- for policy in shop.policies -%}
-          {%- if policy != blank -%}
+          {%- if policy != blank and policy.url does not contain '/policies/contact-information' -%}
             <li>
               <a
                 href="{{ policy.url }}"
