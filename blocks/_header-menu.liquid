@@ -292,17 +292,23 @@
     height: 100%;
     margin-block: 0;
 
+    position: relative;
+
     &::after {
       content: '';
       position: absolute;
       display: none;
       top: var(--header-padding);
-      height: var(--box-height);
+      height: var(--box-height, 100%);
       left: 0;
       right: 0;
+      /* Bridge the gap between the trigger and the full-width submenu */
+      z-index: 1;
     }
 
-    &[data-safety-box='true']::after {
+    /* Keep the hover bridge while the submenu is open (not only while the pointer is moving) */
+    &[data-safety-box='true']::after,
+    &[aria-expanded='true']::after {
       display: block;
     }
 

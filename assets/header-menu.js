@@ -34,6 +34,8 @@ class HeaderMenu extends Component {
     super.disconnectedCallback();
     window.removeEventListener('resize', this.#resizeListener);
     document.body.removeEventListener('pointermove', this.#onPointerMove);
+    clearTimeout(this.#deactivateTimer);
+    this.#deactivateTimer = undefined;
     if (this.#state.activeItem) {
       this.#stopPointerTracking(this.#state.activeItem);
     }
@@ -63,6 +65,12 @@ class HeaderMenu extends Component {
    * @type {ReturnType<typeof setTimeout> | undefined}
    */
   #pointerIdleTimer;
+
+  /**
+   * Delayed close so the pointer can travel from the trigger into the submenu.
+   * @type {ReturnType<typeof setTimeout> | undefined}
+   */
+  #deactivateTimer;
 
   /**
    * Last known pointer position for Safari hit-test reconciliation.
@@ -170,6 +178,9 @@ class HeaderMenu extends Component {
 
     if (!(event.target instanceof Element) || !this.headerComponent) return;
 
+    clearTimeout(this.#deactivateTimer);
+    this.#deactivateTimer = undefined;
+
     let item = findMenuItem(event.target);
 
     if (!item || item == this.#state.activeItem) return;
@@ -249,27 +260,36 @@ class HeaderMenu extends Component {
   };
 
   /**
-   * Deactivate the active item after a delay
+   * Deactivate the active item after a short delay so the pointer can reach the submenu.
    * @param {PointerEvent | FocusEvent} event
    */
   deactivate(event) {
     if (!(event.target instanceof Element)) return;
 
-    const menu = findSubmenu(this.#state.activeItem);
-    const isMovingWithinMenu = event.relatedTarget instanceof Node && menu?.contains(document.activeElement);
-    const isMovingToSubmenu =
-      event.relatedTarget instanceof Node && event.type === 'blur' && menu?.contains(event.relatedTarget);
-    const isMovingToOverflowMenu =
-      event.relatedTarget instanceof Node && event.relatedTarget.parentElement?.matches('[slot="overflow"]');
+    const activeItem = this.#state.activeItem;
+    const menu = findSubmenu(activeItem);
+    const listItem = activeItem?.closest('.menu-list__list-item');
+    const related = event.relatedTarget instanceof Node ? event.relatedTarget : null;
 
-    if (isMovingWithinMenu || isMovingToOverflowMenu || isMovingToSubmenu) {
-      if (this.#state.activeItem) {
-        this.#stopPointerTracking(this.#state.activeItem);
+    const isMovingToSubmenu = Boolean(related && menu?.contains(related));
+    const isMovingWithinListItem = Boolean(related && listItem?.contains(related));
+    const isMovingWithinMenu = Boolean(related && menu?.contains(document.activeElement));
+    const isMovingToOverflowMenu = Boolean(
+      related && related.parentElement?.matches('[slot="overflow"]')
+    );
+
+    if (isMovingToSubmenu || isMovingWithinListItem || isMovingWithinMenu || isMovingToOverflowMenu) {
+      if (activeItem) {
+        this.#stopPointerTracking(activeItem);
       }
       return;
     }
 
-    this.#deactivate();
+    clearTimeout(this.#deactivateTimer);
+    this.#deactivateTimer = setTimeout(() => {
+      this.#deactivateTimer = undefined;
+      this.#deactivate();
+    }, 150);
   }
 
   /**
@@ -279,8 +299,11 @@ class HeaderMenu extends Component {
   #deactivate = (item = this.#state.activeItem) => {
     if (!item || item != this.#state.activeItem) return;
 
-    // Don't deactivate if the overflow menu or overflow list is still being hovered
-    if (this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;
+    // Don't deactivate if the pointer is still over the open submenu or overflow menu
+    if (menuIsHovered(item) || this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;
+
+    clearTimeout(this.#deactivateTimer);
+    this.#deactivateTimer = undefined;
 
     this.headerComponent?.style.setProperty('--submenu-height', '0px');
     this.#setFullOpenHeaderHeight(0);
@@ -390,4 +413,16 @@ function findMenuItem(element) {
 function findSubmenu(element) {
   const submenu = element?.parentElement?.querySelector('[ref="submenu[]"]');
   return submenu instanceof HTMLElement ? submenu : null;
+}
+
+/**
+ * Whether the pointer is still over the active item's submenu or list item.
+ * @param {HTMLElement | null | undefined} item
+ * @returns {boolean}
+ */
+function menuIsHovered(item) {
+  if (!item) return false;
+  const listItem = item.closest('.menu-list__list-item');
+  const submenu = findSubmenu(item);
+  return Boolean(listItem?.matches(':hover') || submenu?.matches(':hover'));
 }
