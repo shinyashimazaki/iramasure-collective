@@ -3,7 +3,7 @@
 {%- enddoc -%}
 
 {% liquid
-  assign banner_image = collection.image | default: collection.featured_image
+  assign banner_image = collection.image
   assign banner_ratio = section.settings.image_ratio
 %}
 
