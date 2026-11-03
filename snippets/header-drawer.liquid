@@ -59,6 +59,10 @@
       aria-label="{{ 'accessibility.menu' | t }}"
       on:click="/toggle"
     >
+      <span class="header-drawer-menu-label" aria-hidden="true">
+        <span class="header-drawer-menu-label__open">{{ 'accessibility.menu' | t }}</span>
+        <span class="header-drawer-menu-label__close">{{ 'actions.close' | t }}</span>
+      </span>
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
         {{- 'icon-menu.svg' | inline_asset_content -}}
       </span>

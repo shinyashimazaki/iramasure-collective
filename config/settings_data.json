@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo_height": 36,
-    "logo_height_mobile": 28,
+    "logo_height": 48,
+    "logo_height_mobile": 40,
     "favicon": "shopify://shop_images/favicon_white.jpg",
     "type_body_font": "lora_n4",
     "type_subheading_font": "lora_n4",

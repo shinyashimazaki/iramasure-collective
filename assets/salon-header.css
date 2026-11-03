@@ -1,0 +1,107 @@
+/* Match https://iramasure.com/ header rhythm (no clock). */
+
+#header-component {
+  --salon-logo-width: clamp(140px, 14.22vw, 215px);
+  --salon-header-pad-y: 24px;
+}
+
+#header-component .header__row--top {
+  min-height: 72px;
+}
+
+#header-component .header__columns {
+  align-items: center;
+  padding-block: var(--salon-header-pad-y);
+}
+
+/* Center logo like salon; keep actions on the right */
+#header-component .header-logo {
+  justify-content: center;
+}
+
+#header-component .header-logo__image,
+#header-component .header-logo__image-container .header-logo__image {
+  width: var(--salon-logo-width) !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Keep the same logo size on home / subpages / sticky solid */
+#header-component[data-sticky-state='active'] .header-logo__image,
+#header-component:not([transparent]) .header-logo__image {
+  width: var(--salon-logo-width) !important;
+}
+
+/* Right-side cluster: language + cart + Menu */
+#header-component .header__column--right {
+  gap: clamp(12px, 1.5vw, 20px);
+  align-items: center;
+}
+
+#header-component .dropdown-localization__button {
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding-inline: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+#header-component .dropdown-localization__button .icon-caret {
+  display: none;
+}
+
+/* Menu toggle with text label (salon style) */
+#header-component .header__icon--menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px;
+  color: inherit;
+}
+
+#header-component .header-drawer-menu-label {
+  display: inline-grid;
+  overflow: hidden;
+  height: 1.2em;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+}
+
+#header-component .header-drawer-menu-label > span {
+  grid-area: 1 / 1;
+  transition: transform 0.45s cubic-bezier(0.5, 0.5, 0, 1);
+}
+
+#header-component .header-drawer-menu-label__close {
+  transform: translateY(100%);
+}
+
+#header-component .menu-drawer-container[open] .header-drawer-menu-label__open {
+  transform: translateY(-100%);
+}
+
+#header-component .menu-drawer-container[open] .header-drawer-menu-label__close {
+  transform: translateY(0);
+}
+
+#header-component .header-drawer-icon {
+  width: 18px;
+  height: 12px;
+}
+
+@media screen and (max-width: 749px) {
+  #header-component {
+    --salon-logo-width: clamp(140px, 38vw, 180px);
+  }
+
+  #header-component .header-drawer-menu-label {
+    font-size: 0.875rem;
+  }
+}
