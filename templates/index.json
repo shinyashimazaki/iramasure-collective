@@ -9,6 +9,109 @@
  */
 {
   "sections": {
+    "home_hero": {
+      "type": "home-hero",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {}
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {}
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {}
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4"
+      ],
+      "settings": {
+        "show_logo": true,
+        "heading": "日本の良品との、一期一会。",
+        "show_scroll_hint": true,
+        "autoplay_speed": 5
+      }
+    },
+    "home_lead": {
+      "type": "home-lead",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "IRAMASURE。それは、日本の良品との出会い。",
+        "body": "<p>IRAMASURE COLLECTIVEは、日本各地で丁寧につくられるもの——茶、器、織物、暮らしの道具——を選び、世界へ届ける場所です。</p><p>一口の抹茶にも、一本の帯にも、その土地の気候と、職人の手仕事が宿っています。<br>まだ知らない日本の風景へ。五感で旅をするように、良品と出会ってください。</p>"
+      }
+    },
+    "home_journey": {
+      "type": "home-journey",
+      "blocks": {
+        "item_matcha": {
+          "type": "item",
+          "settings": {
+            "product": "matcha",
+            "coordinates": "34˚53'N, 135˚48'E",
+            "title": "matcha",
+            "place": "宇治"
+          }
+        },
+        "item_houjicha": {
+          "type": "item",
+          "settings": {
+            "product": "houjicha",
+            "coordinates": "34˚53'N, 135˚48'E",
+            "title": "houjicha",
+            "place": "宇治"
+          }
+        },
+        "item_obi": {
+          "type": "item",
+          "settings": {
+            "product": "iramasure-pouch-big-コピー",
+            "coordinates": "35˚00'N, 135˚46'E",
+            "title": "obi clutch",
+            "place": "京都"
+          }
+        }
+      },
+      "block_order": [
+        "item_matcha",
+        "item_houjicha",
+        "item_obi"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "手に取れば文化を感じる",
+        "cta_label": "詳しく見る"
+      }
+    },
+    "home_feature": {
+      "type": "home-feature",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "土地の個性を、そのままに。",
+        "body": "<p>私たちは、派手な加工や流行の装飾よりも、素材そのものの表情と、作り手の息づかいを大切にしています。<br>茶葉の香り、器の釉薬、帯地の織り目——余分なものを削ぎ落とすほど、その土地でしか生まれない個性が立ち上がります。</p><p>同じものは、ふたつとありません。<br>だからこそ、出会いは一期一会。手にした瞬間の感覚を、逃さないでほしい。</p>",
+        "caption": "",
+        "secondary_heading": "まだ知らない日本に出会える。",
+        "secondary_body": "<p>日本には、世代を超えて技を守る工房もあれば、新しい感性で伝統を編み直す作り手もいます。<br>大きな名声の陰で、静かに、笑いながら、自分の道を貫く人たちがいる。</p><p>IRAMASURE COLLECTIVEは、そうした良品を見つけ、物語ごと届けるために旅を続けています。</p>"
+      }
+    },
+    "home_cta": {
+      "type": "home-cta",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "body": "<p>私たちは、常に同じ棚を並べ続けるだけではありません。<br>季節と出会いとともに、新しい作り手を探し、次の良品を見つけ続けています。</p><p>好奇心が湧いたら、旅をはじめましょう。</p>",
+        "button_label": "Shopを見る",
+        "button_link": "/pages/shop"
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -87,6 +190,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "Featured collection",
       "settings": {
         "product_source": "manual",
@@ -115,154 +219,14 @@
         "padding-block-start": 24,
         "padding-block-end": 48
       }
-    },
-    "featured_blog_home": {
-      "type": "featured-blog-posts",
-      "blocks": {
-        "static-blog-title": {
-          "type": "_featured-blog-posts-title",
-          "name": "t:names.title",
-          "static": true,
-          "settings": {
-            "text": "<h3>{{ closest.blog.title }}</h3>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 24,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "static-blog-post-card": {
-          "type": "_featured-blog-posts-card",
-          "name": "t:names.blog_card",
-          "static": true,
-          "settings": {
-            "alignment": "left",
-            "gap": 8,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "image": {
-              "type": "_featured-blog-posts-image",
-              "name": "t:names.image",
-              "static": true,
-              "settings": {
-                "image_ratio": "square",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "_heading",
-              "name": "t:names.title",
-              "static": true,
-              "settings": {
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "text": "<h4>{{ closest.article.title }}</h4>",
-                "read_only": false,
-                "alignment": "left",
-                "show_alignment": false,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "blog-post-info-text": {
-              "type": "_blog-post-info-text",
-              "name": "t:names.details",
-              "static": true,
-              "settings": {
-                "show_date": true,
-                "show_author": false,
-                "type_preset": "",
-                "alignment": "left",
-                "show_alignment": false,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
-            },
-            "blog-post-description": {
-              "type": "_blog-post-description",
-              "name": "t:names.excerpt",
-              "static": true,
-              "settings": {
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "padding-block-start": 8,
-                "padding-block-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        }
-      },
-      "disabled": true,
-      "name": "t:names.blog_posts",
-      "settings": {
-        "blog": "",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "post_limit": 3,
-        "columns": 3,
-        "mobile_columns": "1",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 28,
-        "rows_gap": 28,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "gap": 28,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
     }
   },
   "order": [
-    "product_list_fa6P9H",
-    "featured_blog_home"
+    "home_hero",
+    "home_lead",
+    "home_journey",
+    "home_feature",
+    "home_cta",
+    "product_list_fa6P9H"
   ]
 }
