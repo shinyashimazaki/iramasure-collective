@@ -14,15 +14,21 @@
       "blocks": {
         "slide_1": {
           "type": "slide",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/photo-1780498178879-4064b19e6517.avif"
+          }
         },
         "slide_2": {
           "type": "slide",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/photo-1545569341-9eb8b30979d9.avif"
+          }
         },
         "slide_3": {
           "type": "slide",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/photo-1785062897723-b72450b2f49e.avif"
+          }
         },
         "slide_4": {
           "type": "slide",
@@ -59,7 +65,8 @@
             "product": "matcha",
             "coordinates": "34˚53'N, 135˚48'E",
             "title": "matcha",
-            "place": "Uji"
+            "place": "Uji",
+            "link": ""
           }
         },
         "item_houjicha": {
@@ -68,7 +75,8 @@
             "product": "houjicha",
             "coordinates": "34˚53'N, 135˚48'E",
             "title": "houjicha",
-            "place": "Uji"
+            "place": "Uji",
+            "link": ""
           }
         },
         "item_obi": {
@@ -77,7 +85,8 @@
             "product": "iramasure-pouch-big-コピー",
             "coordinates": "35˚00'N, 135˚46'E",
             "title": "obi clutch",
-            "place": "Kyoto"
+            "place": "Kyoto",
+            "link": ""
           }
         }
       },
@@ -203,6 +212,7 @@
           "matcha-bowl-oribe-shirotake-matcha-whisk"
         ],
         "layout_type": "masonry",
+        "show_overlay_title": false,
         "carousel_on_mobile": false,
         "max_products": 5,
         "columns": 4,

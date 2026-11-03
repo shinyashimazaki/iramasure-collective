@@ -26,16 +26,16 @@
           assign fallback_alt = shop.name
           case forloop.index0
             when 0
-              assign fallback_asset = 'home-hero-01-fuji.jpg'
+              assign fallback_asset = 'home-hero/hero-01-fuji.jpg'
               assign fallback_alt = 'Mount Fuji at dawn, Japan'
             when 1
-              assign fallback_asset = 'home-hero-02-pagoda.jpg'
+              assign fallback_asset = 'home-hero/hero-02-pagoda.jpg'
               assign fallback_alt = 'Pagoda overlooking Kyoto, Japan'
             when 2
-              assign fallback_asset = 'home-hero-03-alley.jpg'
+              assign fallback_asset = 'home-hero/hero-03-alley.jpg'
               assign fallback_alt = 'Traditional Japanese street at night'
             when 3
-              assign fallback_asset = 'home-hero-04-torii.jpg'
+              assign fallback_asset = 'home-hero/hero-04-torii.jpg'
               assign fallback_alt = 'Fushimi Inari torii gates, Kyoto'
           endcase
         %}
@@ -96,14 +96,8 @@
       <p class="home-hero__brand">{{ shop.name }}</p>
     {% endif %}
 
-    {% liquid
-      assign hero_heading = section.settings.heading
-      if hero_heading == blank
-        assign hero_heading = 'home.hero.heading' | t
-      endif
-    %}
-    {% if hero_heading != blank %}
-      <h2 class="home-hero__heading">{{ hero_heading | escape }}</h2>
+    {% if section.settings.heading != blank %}
+      <h2 class="home-hero__heading">{{ section.settings.heading | escape }}</h2>
     {% endif %}
   </div>
 
@@ -306,7 +300,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": ""
+      "default": "日本の良品との、一期一会。"
     },
     {
       "type": "checkbox",

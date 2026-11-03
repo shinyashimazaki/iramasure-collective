@@ -1,18 +1,6 @@
-{% liquid
-  assign journey_heading = section.settings.heading
-  if journey_heading == blank
-    assign journey_heading = 'home.journey.heading' | t
-  endif
-
-  assign journey_cta = section.settings.cta_label
-  if journey_cta == blank
-    assign journey_cta = 'home.journey.cta_label' | t
-  endif
-%}
-
 <section class="home-journey color-{{ section.settings.color_scheme }}">
-  {% if journey_heading != blank %}
-    <h3 class="home-journey__heading">{{ journey_heading | escape }}</h3>
+  {% if section.settings.heading != blank %}
+    <h3 class="home-journey__heading">{{ section.settings.heading | escape }}</h3>
   {% endif %}
 
   <div class="home-journey__track" data-home-journey-track>
@@ -67,13 +55,13 @@
               <span class="home-journey__title">{{ card_title | escape }}</span>
             {% endif %}
             {% if card_place != blank %}
-              <span class="home-journey__place">({{ card_place | escape }})</span>
+              <span class="home-journey__place">（{{ card_place | escape }}）</span>
             {% endif %}
           </p>
 
           {% if card_link != blank %}
             <a class="home-journey__link" href="{{ card_link }}">
-              {{ journey_cta | escape }}
+              {{ section.settings.cta_label | escape }}
             </a>
           {% endif %}
         </div>
@@ -226,13 +214,13 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": ""
+      "default": "手に取れば文化を感じる"
     },
     {
       "type": "text",
       "id": "cta_label",
       "label": "Button label",
-      "default": ""
+      "default": "詳しく見る"
     }
   ],
   "blocks": [
@@ -265,7 +253,7 @@
           "type": "text",
           "id": "place",
           "label": "Place",
-          "default": "Kyoto"
+          "default": "京都"
         },
         {
           "type": "url",
