@@ -1,12 +1,16 @@
-/* Match https://iramasure.com/ header rhythm (no clock). */
+/* Match https://iramasure.com/ header rhythm on Collective home:
+   - Large logo lives in the hero
+   - Header logo appears only after leaving the hero (slightly smaller)
+   - Solid header slides in past the hero
+*/
 
 #header-component {
-  --salon-logo-width: clamp(140px, 14.22vw, 215px);
-  --salon-header-pad-y: 24px;
+  --salon-logo-width: clamp(120px, 11.8vw, 175px);
+  --salon-header-pad-y: 20px;
 }
 
 #header-component .header__row--top {
-  min-height: 72px;
+  min-height: 64px;
 }
 
 #header-component .header__columns {
@@ -14,23 +18,17 @@
   padding-block: var(--salon-header-pad-y);
 }
 
-/* Center logo like salon; keep actions on the right */
 #header-component .header-logo {
   justify-content: center;
 }
 
+/* Sticky / solid header logo = smaller (salon is-solid size) */
 #header-component .header-logo__image,
 #header-component .header-logo__image-container .header-logo__image {
   width: var(--salon-logo-width) !important;
   height: auto !important;
   max-width: none !important;
   max-height: none !important;
-}
-
-/* Keep the same logo size on home / subpages / sticky solid */
-#header-component[data-sticky-state='active'] .header-logo__image,
-#header-component:not([transparent]) .header-logo__image {
-  width: var(--salon-logo-width) !important;
 }
 
 /* Right-side cluster: language + cart + Menu */
@@ -96,9 +94,82 @@
   height: 12px;
 }
 
+/* Home hero logo stays larger and independent from header logo */
+.home-hero__logo {
+  width: clamp(160px, 18vw, 280px) !important;
+}
+
+/* ── Home: past-hero header show / hide ───────────────────── */
+
+body.template-index.is-over-hero .header-logo[data-hidden-on-home-page] {
+  display: none !important;
+}
+
+/* Stay transparent over the hero even if Horizon marks sticky early */
+body.template-index.is-over-hero #header-component[transparent='not-sticky'][data-sticky-state='active'] {
+  --header-logo-display: none;
+  --header-logo-inverse-display: block;
+  --closed-underlay-height: 0px;
+  --color-foreground: unset;
+  --color-foreground-rgb: unset;
+  --color-background: unset;
+  --color-background-rgb: unset;
+  --color-border: unset;
+  --color-border-rgb: unset;
+}
+
+body.template-index.is-over-hero
+  #header-component[transparent='not-sticky'][data-sticky-state='active']
+  .header__row {
+  --color-foreground: inherit;
+  --color-foreground-rgb: inherit;
+  --color-border: inherit;
+  --color-border-rgb: inherit;
+  --color-primary-button-background: inherit;
+  --color-primary-button-text: inherit;
+}
+
+/* Past hero: show smaller header logo + solid underlay */
+body.template-index.is-past-hero .header-logo[data-hidden-on-home-page] {
+  display: flex !important;
+}
+
+body.template-index.is-past-hero #header-component[transparent] {
+  --header-logo-display: unset;
+  --header-logo-inverse-display: unset;
+  --closed-underlay-height: 100%;
+  --color-foreground: inherit;
+  --color-foreground-rgb: inherit;
+  --color-background: inherit;
+  --color-background-rgb: inherit;
+  --color-border: inherit;
+  --color-border-rgb: inherit;
+}
+
+body.template-index.is-past-hero #header-component.salon-header--solid {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate3d(0, 0, 0);
+}
+
+body.template-index.is-past-hero #header-component.salon-header--entering {
+  transform: translate3d(0, -100%, 0);
+  transition: none;
+}
+
+body.template-index.is-past-hero
+  #header-component
+  .header-logo__image-container--original
+  .header-logo__image {
+  filter: none;
+}
+
 @media screen and (max-width: 749px) {
   #header-component {
-    --salon-logo-width: clamp(140px, 38vw, 180px);
+    --salon-logo-width: clamp(100px, 29vw, 122px);
+  }
+
+  .home-hero__logo {
+    width: clamp(140px, 48vw, 200px) !important;
   }
 
   #header-component .header-drawer-menu-label {

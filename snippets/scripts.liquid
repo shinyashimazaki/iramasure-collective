@@ -303,3 +303,7 @@
     },
   };
 </script>
+
+{% if template.name == 'index' %}
+  <script src="{{ 'home-header-scroll.js' | asset_url }}" defer></script>
+{% endif %}
