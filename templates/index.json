@@ -43,7 +43,7 @@
       ],
       "settings": {
         "show_logo": true,
-        "heading": "",
+        "heading": "A once-in-a-lifetime encounter with Japan's finest.",
         "show_scroll_hint": true,
         "autoplay_speed": 5
       }
@@ -52,8 +52,8 @@
       "type": "home-lead",
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "",
-        "body": ""
+        "heading": "IRAMASURE. An encounter with Japan's finest goods.",
+        "body": "<p>IRAMASURE COLLECTIVE selects carefully made things from across Japan—tea, ceramics, textiles, and objects for everyday life—and brings them to the world.</p><p>In a sip of matcha, in a single obi, live the climate of the land and the hands of the maker.</p><p>Toward a Japan you have not yet known. Meet these goods as you would begin a journey through the senses.</p>"
       }
     },
     "home_journey": {
@@ -97,27 +97,27 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "",
-        "cta_label": ""
+        "heading": "Feel the culture in your hands",
+        "cta_label": "Discover"
       }
     },
     "home_feature": {
       "type": "home-feature",
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "",
-        "body": "",
+        "heading": "Keep the character of the land.",
+        "body": "<p>We value the expression of the material itself—and the breath of the maker—more than loud finishing or fashion.</p><p>The aroma of tea leaves, the glaze on a bowl, the weave of an obi: the more we leave untouched, the more a character that can only be born in that place comes forward.</p><p>No two are the same.</p><p>That is why every encounter is once in a lifetime. Do not miss the feeling in your hands.</p>",
         "caption": "",
-        "secondary_heading": "",
-        "secondary_body": ""
+        "secondary_heading": "Discover a Japan you have not yet known.",
+        "secondary_body": "<p>In Japan, some workshops guard craft across generations; others reweave tradition with a new sensibility.</p><p>Away from the loudest names, makers keep to their own path—quietly, seriously, and with a smile.</p><p>IRAMASURE COLLECTIVE keeps traveling to find those goods and deliver them with their stories.</p>"
       }
     },
     "home_cta": {
       "type": "home-cta",
       "settings": {
         "color_scheme": "scheme-1",
-        "body": "",
-        "button_label": "",
+        "body": "<p>We do not simply keep the same shelf forever.</p><p>With each season and each encounter, we look for new makers and the next fine goods.</p><p>When curiosity stirs, begin the journey.</p>",
+        "button_label": "Visit the Shop",
         "button_link": "/pages/shop"
       }
     },
