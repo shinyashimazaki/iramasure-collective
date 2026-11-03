@@ -1,14 +1,27 @@
+{% liquid
+  assign cta_body = section.settings.body | strip
+  assign cta_body_plain = cta_body | strip_html | strip
+  if cta_body == blank or cta_body_plain == blank
+    assign cta_body = 'home.cta.body_html' | t
+  endif
+
+  assign cta_label = section.settings.button_label
+  if cta_label == blank
+    assign cta_label = 'home.cta.button_label' | t
+  endif
+%}
+
 <section class="home-cta color-{{ section.settings.color_scheme }}">
   <div class="home-cta__inner">
-    {% if section.settings.body != blank %}
+    {% if cta_body != blank %}
       <div class="home-cta__body rte">
-        {{ section.settings.body }}
+        {{ cta_body }}
       </div>
     {% endif %}
 
-    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+    {% if cta_label != blank and section.settings.button_link != blank %}
       <a class="home-cta__button" href="{{ section.settings.button_link }}">
-        {{ section.settings.button_label | escape }}
+        {{ cta_label | escape }}
       </a>
     {% endif %}
   </div>
@@ -78,13 +91,13 @@
       "type": "richtext",
       "id": "body",
       "label": "Body",
-      "default": "<p>私たちは、常に同じ棚を並べ続けるだけではありません。<br>季節と出会いとともに、新しい作り手を探し、次の良品を見つけ続けています。</p><p>好奇心が湧いたら、旅をはじめましょう。</p>"
+      "default": "<p></p>"
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "Button label",
-      "default": "Shopを見る"
+      "default": ""
     },
     {
       "type": "url",

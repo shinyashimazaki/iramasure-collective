@@ -37,7 +37,7 @@
       ],
       "settings": {
         "show_logo": true,
-        "heading": "日本の良品との、一期一会。",
+        "heading": "",
         "show_scroll_hint": true,
         "autoplay_speed": 5
       }
@@ -46,8 +46,8 @@
       "type": "home-lead",
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "IRAMASURE。それは、日本の良品との出会い。",
-        "body": "<p>IRAMASURE COLLECTIVEは、日本各地で丁寧につくられるもの——茶、器、織物、暮らしの道具——を選び、世界へ届ける場所です。</p><p>一口の抹茶にも、一本の帯にも、その土地の気候と、職人の手仕事が宿っています。<br>まだ知らない日本の風景へ。五感で旅をするように、良品と出会ってください。</p>"
+        "heading": "",
+        "body": ""
       }
     },
     "home_journey": {
@@ -59,7 +59,7 @@
             "product": "matcha",
             "coordinates": "34˚53'N, 135˚48'E",
             "title": "matcha",
-            "place": "宇治"
+            "place": "Uji"
           }
         },
         "item_houjicha": {
@@ -68,7 +68,7 @@
             "product": "houjicha",
             "coordinates": "34˚53'N, 135˚48'E",
             "title": "houjicha",
-            "place": "宇治"
+            "place": "Uji"
           }
         },
         "item_obi": {
@@ -77,7 +77,7 @@
             "product": "iramasure-pouch-big-コピー",
             "coordinates": "35˚00'N, 135˚46'E",
             "title": "obi clutch",
-            "place": "京都"
+            "place": "Kyoto"
           }
         }
       },
@@ -88,27 +88,27 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "手に取れば文化を感じる",
-        "cta_label": "詳しく見る"
+        "heading": "",
+        "cta_label": ""
       }
     },
     "home_feature": {
       "type": "home-feature",
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "土地の個性を、そのままに。",
-        "body": "<p>私たちは、派手な加工や流行の装飾よりも、素材そのものの表情と、作り手の息づかいを大切にしています。<br>茶葉の香り、器の釉薬、帯地の織り目——余分なものを削ぎ落とすほど、その土地でしか生まれない個性が立ち上がります。</p><p>同じものは、ふたつとありません。<br>だからこそ、出会いは一期一会。手にした瞬間の感覚を、逃さないでほしい。</p>",
+        "heading": "",
+        "body": "",
         "caption": "",
-        "secondary_heading": "まだ知らない日本に出会える。",
-        "secondary_body": "<p>日本には、世代を超えて技を守る工房もあれば、新しい感性で伝統を編み直す作り手もいます。<br>大きな名声の陰で、静かに、笑いながら、自分の道を貫く人たちがいる。</p><p>IRAMASURE COLLECTIVEは、そうした良品を見つけ、物語ごと届けるために旅を続けています。</p>"
+        "secondary_heading": "",
+        "secondary_body": ""
       }
     },
     "home_cta": {
       "type": "home-cta",
       "settings": {
         "color_scheme": "scheme-1",
-        "body": "<p>私たちは、常に同じ棚を並べ続けるだけではありません。<br>季節と出会いとともに、新しい作り手を探し、次の良品を見つけ続けています。</p><p>好奇心が湧いたら、旅をはじめましょう。</p>",
-        "button_label": "Shopを見る",
+        "body": "",
+        "button_label": "",
         "button_link": "/pages/shop"
       }
     },

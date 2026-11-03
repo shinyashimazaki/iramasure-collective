@@ -348,5 +348,28 @@
       "success_moderated": "Kommentar gepostet, Moderation ausstehend",
       "success": "Kommentar gepostet"
     }
+  },
+  "home": {
+    "hero": {
+      "heading": "Eine einmalige Begegnung mit Japans feinsten Gütern."
+    },
+    "lead": {
+      "heading": "IRAMASURE. Eine Begegnung mit Japans feinsten Gütern.",
+      "body_html": "<p>IRAMASURE COLLECTIVE wählt sorgfältig gefertigte Dinge aus ganz Japan—Tee, Keramik, Textilien und Gegenstände für den Alltag—und bringt sie in die Welt.</p><p>In einem Schluck Matcha, in einem einzelnen Obi leben das Klima des Landes und die Hände der Macher.<br>Hin zu einem Japan, das du noch nicht kennst. Begegne diesen Gütern, als würdest du eine Reise mit allen Sinnen beginnen.</p>"
+    },
+    "journey": {
+      "heading": "Kultur, die man berühren kann",
+      "cta_label": "Mehr erfahren"
+    },
+    "feature": {
+      "heading": "Den Charakter des Landes bewahren.",
+      "body_html": "<p>Wir schätzen den Ausdruck des Materials selbst—und den Atem der Macher—mehr als laute Veredelung oder Mode.<br>Der Duft der Teeblätter, die Glasur einer Schale, das Gewebe eines Obi: Je mehr wir unberührt lassen, desto klarer tritt ein Charakter hervor, der nur an diesem Ort entstehen kann.</p><p>Kein Stück gleicht dem anderen.<br>Deshalb ist jede Begegnung einmalig. Verpasse nicht das Gefühl in deinen Händen.</p>",
+      "secondary_heading": "Entdecke ein Japan, das du noch nicht kennst.",
+      "secondary_body_html": "<p>In Japan bewahren manche Werkstätten ihr Handwerk über Generationen; andere weben Tradition mit neuer Sensibilität neu.<br>Abseits der lautesten Namen gehen Macher ihren eigenen Weg—ruhig, ernst und mit einem Lächeln.</p><p>IRAMASURE COLLECTIVE reist weiter, um diese Güter zu finden und sie mit ihren Geschichten zu teilen.</p>"
+    },
+    "cta": {
+      "body_html": "<p>Wir halten nicht einfach immer dasselbe Regal fest.<br>Mit jeder Jahreszeit und jeder Begegnung suchen wir neue Macher und die nächsten feinen Güter.</p><p>Wenn Neugier aufkommt, beginne die Reise.</p>",
+      "button_label": "Zum Shop"
+    }
   }
 }
