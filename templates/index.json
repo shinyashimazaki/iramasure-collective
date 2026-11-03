@@ -29,17 +29,12 @@
           "settings": {
             "image": "shopify://shop_images/photo-1785062897723-b72450b2f49e.avif"
           }
-        },
-        "slide_4": {
-          "type": "slide",
-          "settings": {}
         }
       },
       "block_order": [
         "slide_1",
         "slide_2",
-        "slide_3",
-        "slide_4"
+        "slide_3"
       ],
       "settings": {
         "show_logo": true,
