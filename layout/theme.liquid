@@ -106,10 +106,8 @@
       (function setHeaderMenuStyle() {
         const headerComponent = document.querySelector('#header-component');
         if (headerComponent) {
-          const isTouchDevice = 'ontouchstart' in window && navigator.maxTouchPoints > 0;
-          const overflowList = headerComponent?.querySelector('overflow-list');
-          const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
-          headerComponent.dataset.menuStyle = isTouchDevice || hasReachedMinimum ? 'drawer' : 'menu';
+          // WAZU-like: always use hamburger drawer instead of desktop mega menu
+          headerComponent.dataset.menuStyle = 'drawer';
         }
       })();
     </script>

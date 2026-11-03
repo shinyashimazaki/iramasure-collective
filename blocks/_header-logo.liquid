@@ -154,6 +154,16 @@
     }
   }
 
+  /* White logo on transparent header (WAZU-like) when using theme SVG asset */
+  .header[transparent] .header-logo__image-container--original .header-logo__image {
+    filter: brightness(0) invert(1);
+  }
+
+  .header[transparent='not-sticky'][data-sticky-state='active'] .header-logo__image-container--original .header-logo__image,
+  .header[transparent]:has(.menu-list__link:is(:hover, [aria-expanded='true'])) .header-logo__image-container--original .header-logo__image {
+    filter: none;
+  }
+
   .header-logo:has(.header-logo__image-container--inverse) .header-logo__image-container--original {
     display: var(--header-logo-display, block);
   }
