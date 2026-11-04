@@ -35,8 +35,9 @@
   #
   # At the moment, we check if the Section Rendering API is being used by
   # checking if section.index is blank.
+  # force_eager: used by the home hero nav, which is not hydrated via SRA.
   assign eager_loading = false
-  if section.index == blank
+  if section.index == blank or force_eager
     assign eager_loading = true
   endif
 
