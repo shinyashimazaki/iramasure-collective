@@ -7,6 +7,8 @@
   const nextBtn = root.querySelector('[data-home-journey-next]');
   if (!track) return;
 
+  const mobileQuery = window.matchMedia('(max-width: 749px)');
+
   const cards = () => Array.from(track.querySelectorAll('.home-journey__card'));
 
   const getGap = () => {
@@ -21,6 +23,13 @@
   };
 
   const updateControls = () => {
+    if (!mobileQuery.matches) {
+      root.classList.remove('is-scrollable');
+      if (prevBtn) prevBtn.disabled = true;
+      if (nextBtn) nextBtn.disabled = true;
+      return;
+    }
+
     const max = track.scrollWidth - track.clientWidth;
     const atStart = track.scrollLeft <= 2;
     const atEnd = track.scrollLeft >= max - 2;
@@ -38,6 +47,7 @@
   };
 
   const scrollByDir = (dir) => {
+    if (!mobileQuery.matches) return;
     track.scrollBy({ left: dir * getStep(), behavior: 'smooth' });
   };
 
@@ -51,6 +61,7 @@
   let pointerId = null;
 
   const onPointerDown = (event) => {
+    if (!mobileQuery.matches) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
 
     isPointerDown = true;
@@ -86,7 +97,6 @@
   track.addEventListener('pointercancel', onPointerUp);
   track.addEventListener('scroll', () => window.requestAnimationFrame(updateControls), { passive: true });
 
-  // Prevent accidental link clicks after a drag.
   track.addEventListener(
     'click',
     (event) => {
@@ -101,6 +111,7 @@
   track.addEventListener(
     'wheel',
     (event) => {
+      if (!mobileQuery.matches) return;
       if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
       if (track.scrollWidth <= track.clientWidth) return;
 
@@ -111,6 +122,16 @@
     { passive: false }
   );
 
+  const onBreakpointChange = () => {
+    if (!mobileQuery.matches) {
+      track.scrollLeft = 0;
+      track.classList.remove('is-dragging');
+      isPointerDown = false;
+    }
+    updateControls();
+  };
+
+  mobileQuery.addEventListener?.('change', onBreakpointChange);
   window.addEventListener('resize', updateControls, { passive: true });
   updateControls();
 })();

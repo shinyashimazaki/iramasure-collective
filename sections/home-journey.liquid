@@ -97,14 +97,7 @@
   .home-journey__track {
     display: flex;
     gap: 1rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
     padding: 0 clamp(1.25rem, 4vw, 2.5rem);
-    cursor: grab;
-    touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -113,21 +106,60 @@
     display: none;
   }
 
-  .home-journey__track.is-dragging {
-    cursor: grabbing;
-    scroll-behavior: auto;
-    scroll-snap-type: none;
-    user-select: none;
-  }
-
   .home-journey__card {
-    flex: 0 0 min(78vw, 22rem);
-    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     background: transparent;
     color: inherit;
+  }
+
+  /* Desktop: three cards centered, no carousel */
+  @media screen and (min-width: 750px) {
+    .home-journey__track {
+      justify-content: center;
+      max-width: min(72rem, calc(100% - 3rem));
+      margin-inline: auto;
+      overflow: visible;
+      cursor: default;
+    }
+
+    .home-journey__card {
+      flex: 1 1 0;
+      max-width: 22rem;
+      min-width: 0;
+    }
+
+    .home-journey__nav {
+      display: none;
+    }
+  }
+
+  /* Mobile: horizontal scroll carousel */
+  @media screen and (max-width: 749px) {
+    .home-journey__track {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      cursor: grab;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    .home-journey__track.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+      scroll-snap-type: none;
+      user-select: none;
+    }
+
+    .home-journey__card {
+      flex: 0 0 min(78vw, 20rem);
+      scroll-snap-align: start;
+    }
   }
 
   .home-journey__media {
@@ -235,11 +267,6 @@
   @media screen and (max-width: 749px) {
     .home-journey__nav {
       display: none;
-    }
-
-    .home-journey__track {
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
     }
   }
 
