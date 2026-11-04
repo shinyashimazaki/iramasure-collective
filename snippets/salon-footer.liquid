@@ -113,23 +113,13 @@
 
     <div class="salon-footer__meta">
       <div class="salon-footer__logo">
-        {% if settings.logo != blank %}
-          <img
-            src="{{ settings.logo | image_url: width: 1600 }}"
-            alt="{{ shop.name | escape }}"
-            width="{{ settings.logo.width }}"
-            height="{{ settings.logo.height }}"
-            loading="lazy"
-          >
-        {% else %}
-          <img
-            src="{{ 'logo.svg' | asset_url }}"
-            alt="{{ shop.name | escape }}"
-            width="293"
-            height="67"
-            loading="lazy"
-          >
-        {% endif %}
+        <img
+          src="{{ 'logo-footer.svg' | asset_url }}"
+          alt="{{ shop.name | escape }}"
+          width="807"
+          height="92"
+          loading="lazy"
+        >
       </div>
 
       <div class="salon-footer__meta-row">
