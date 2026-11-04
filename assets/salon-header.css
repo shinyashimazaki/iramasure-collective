@@ -39,9 +39,23 @@
   --padding-inline-start: var(--site-nav-pad-inline);
   --padding-inline-end: var(--site-nav-pad-inline);
   align-items: center;
+  width: 100%;
+  max-width: none;
+  grid-column: 1 / -1 !important;
   padding-block: var(--salon-header-pad-top) var(--salon-header-pad-bottom) !important;
   padding-inline: var(--site-nav-pad-inline) !important;
+  margin-inline: 0 !important;
   transition: padding 0.55s var(--salon-ease);
+}
+
+/* Match hero: full-bleed row, outer inset only via --site-nav-pad-inline */
+#header-component .header__row--top.section {
+  width: 100%;
+}
+
+#header-component .header__row--top.section--page-width > *,
+#header-component .header__row--top.section--full-width > * {
+  grid-column: 1 / -1 !important;
 }
 
 #header-component .header-logo {
