@@ -45,7 +45,6 @@
                 </span>
                 <span class="salon-footer__card-label">
                   {{ card_label | escape }}
-                  <span class="salon-footer__arrow" aria-hidden="true">↗</span>
                 </span>
               </a>
             {% endif %}
@@ -103,26 +102,22 @@
           {% if section.settings.instagram_url != blank %}
             <li>
               <a
-                class="salon-footer__external"
                 href="{{ section.settings.instagram_url }}"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Instagram
-                <span class="salon-footer__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
           {% endif %}
           {% if section.settings.facebook_url != blank %}
             <li>
               <a
-                class="salon-footer__external"
                 href="{{ section.settings.facebook_url }}"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Facebook
-                <span class="salon-footer__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
           {% endif %}
@@ -322,20 +317,8 @@
 
   .salon-footer__nav-list a:hover,
   .salon-footer__legal a:hover,
-  .salon-footer__top:hover,
-  .salon-footer__external:hover {
+  .salon-footer__top:hover {
     color: var(--salon-footer-fg);
-  }
-
-  .salon-footer__external {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .salon-footer__arrow {
-    font-size: 0.8em;
-    line-height: 1;
   }
 
   .salon-footer__meta {

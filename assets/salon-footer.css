@@ -146,20 +146,8 @@
 
 .salon-footer__nav-list a:hover,
 .salon-footer__legal a:hover,
-.salon-footer__top:hover,
-.salon-footer__external:hover {
+.salon-footer__top:hover {
   color: var(--salon-footer-fg);
-}
-
-.salon-footer__external {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.salon-footer__arrow {
-  font-size: 0.8em;
-  line-height: 1;
 }
 
 .salon-footer__meta {
