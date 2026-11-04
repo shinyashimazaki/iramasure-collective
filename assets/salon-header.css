@@ -1,19 +1,26 @@
-/* Header: WAZU-like horizontal nav + salon logo animation
-   Desktop: Home / Category / Contact + language + account + cart
-   Mobile: drawer only when needed (no forced hamburger on desktop)
-*/
+/* Shared top-nav chrome: hero nav + sticky header use the same tokens */
+
+:root {
+  --site-nav-pad-block: 20px;
+  --site-nav-pad-inline: var(--page-margin, 1.25rem);
+  --site-nav-gap: clamp(18px, 2vw, 28px);
+  --site-nav-font-size: 0.875rem;
+  --site-nav-letter-spacing: 0.04em;
+  --site-nav-control-size: 44px;
+  --site-nav-height: calc(var(--site-nav-pad-block) * 2 + var(--site-nav-control-size));
+}
 
 #header-component {
   --salon-logo-width: clamp(140px, 14.22vw, 215px);
-  --salon-header-pad-top: 20px;
-  --salon-header-pad-bottom: 20px;
+  --salon-header-pad-top: var(--site-nav-pad-block);
+  --salon-header-pad-bottom: var(--site-nav-pad-block);
   --salon-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #header-component.salon-header--compact {
   --salon-logo-width: clamp(120px, 11.8vw, 175px);
-  --salon-header-pad-top: 20px;
-  --salon-header-pad-bottom: 20px;
+  --salon-header-pad-top: var(--site-nav-pad-block);
+  --salon-header-pad-bottom: var(--site-nav-pad-block);
 }
 
 #header-component .header__row--top {
@@ -29,8 +36,11 @@
 #header-component[data-menu-style='drawer'] .header__row--top .header__columns {
   --padding-block-start: var(--salon-header-pad-top);
   --padding-block-end: var(--salon-header-pad-bottom);
+  --padding-inline-start: var(--site-nav-pad-inline);
+  --padding-inline-end: var(--site-nav-pad-inline);
   align-items: center;
   padding-block: var(--salon-header-pad-top) var(--salon-header-pad-bottom) !important;
+  padding-inline: var(--site-nav-pad-inline) !important;
   transition: padding 0.55s var(--salon-ease);
 }
 
@@ -38,9 +48,71 @@
   justify-content: center;
 }
 
-/* True-center logo when shown (past hero / inner pages) */
 #header-component .header__row--top .header__columns {
   position: relative;
+}
+
+/* Shared menu + action spacing */
+#header-component .menu-list,
+.home-hero__nav .menu-list {
+  --menu-horizontal-gap: var(--site-nav-gap);
+}
+
+#header-component .menu-list__link,
+.home-hero__nav .menu-list__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--site-nav-control-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font-family: var(--font-body--family);
+  font-size: var(--site-nav-font-size);
+  letter-spacing: var(--site-nav-letter-spacing);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#header-component .header__column--right,
+.home-hero__nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--site-nav-gap);
+}
+
+#header-component .header-lang-switcher,
+.home-hero__nav-actions,
+#header-component header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--site-nav-gap);
+}
+
+#header-component .header-actions__action,
+.home-hero__icon-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--site-nav-control-size);
+  height: var(--site-nav-control-size);
+  min-width: var(--site-nav-control-size);
+  min-height: var(--site-nav-control-size);
+  padding: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+#header-component .header-actions__action .svg-wrapper,
+#header-component .header-actions__action svg,
+.home-hero__icon-link .svg-wrapper,
+.home-hero__icon-link svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 @media screen and (min-width: 750px) {
@@ -59,26 +131,13 @@
   }
 
   #header-component .header__column--right {
-    gap: clamp(18px, 2vw, 28px);
-    align-items: center;
     z-index: 2;
   }
 
-  /* Horizontal text menu */
   #header-component[data-menu-style='menu'] .header-menu {
     display: flex;
   }
 
-  #header-component[data-menu-style='menu'] .menu-list__link {
-    font-size: 0.875rem;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-  }
-
-  /* Prefer text nav over hamburger on desktop */
   #header-component[data-menu-style='menu'] .header__drawer {
     display: none !important;
   }
@@ -94,15 +153,15 @@
 .lang-switcher__btn {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
+  min-height: var(--site-nav-control-size);
   margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
   color: inherit;
   font-family: var(--font-body--family);
-  font-size: 0.875rem;
-  letter-spacing: 0.04em;
+  font-size: var(--site-nav-font-size);
+  letter-spacing: var(--site-nav-letter-spacing);
   cursor: pointer;
   opacity: 0.55;
 }
@@ -113,12 +172,7 @@
 
 .lang-switcher__sep {
   opacity: 0.35;
-  font-size: 0.875rem;
-}
-
-#header-component .header-lang-switcher {
-  display: flex;
-  align-items: center;
+  font-size: var(--site-nav-font-size);
 }
 
 /* Logo size + salon-like width animation */
