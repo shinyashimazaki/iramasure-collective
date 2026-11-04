@@ -6,7 +6,7 @@
 
 #header-component {
   --salon-logo-width: clamp(140px, 14.22vw, 215px);
-  --salon-header-pad-top: 28px;
+  --salon-header-pad-top: 20px;
   --salon-header-pad-bottom: 20px;
   --salon-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -14,7 +14,7 @@
 #header-component.salon-header--compact {
   --salon-logo-width: clamp(120px, 11.8vw, 175px);
   --salon-header-pad-top: 20px;
-  --salon-header-pad-bottom: 16px;
+  --salon-header-pad-bottom: 20px;
 }
 
 #header-component .header__row--top {
@@ -216,14 +216,14 @@ body.template-index.is-past-hero
 @media screen and (max-width: 749px) {
   #header-component {
     --salon-logo-width: clamp(112px, 32vw, 136px);
-    --salon-header-pad-top: max(12px, env(safe-area-inset-top, 0px));
-    --salon-header-pad-bottom: 12px;
+    --salon-header-pad-top: 20px;
+    --salon-header-pad-bottom: 20px;
   }
 
   #header-component.salon-header--compact {
     --salon-logo-width: clamp(100px, 29vw, 122px);
-    --salon-header-pad-top: max(10px, env(safe-area-inset-top, 0px));
-    --salon-header-pad-bottom: 10px;
+    --salon-header-pad-top: 20px;
+    --salon-header-pad-bottom: 20px;
   }
 
   .home-hero__logo {
