@@ -1,0 +1,29 @@
+{% doc %}
+  Inline language switcher (EN / DE style), shared by hero nav and sticky header.
+
+  @param {string} [form_id] - Unique form id suffix
+  @param {string} [class] - Extra class on the wrapper
+{% enddoc %}
+
+{% if localization.available_languages.size > 1 %}
+  {% form 'localization', id: form_id %}
+    <div class="lang-switcher{% if class != blank %} {{ class }}{% endif %}">
+      {% for language in localization.available_languages %}
+        <button
+          type="submit"
+          name="locale_code"
+          value="{{ language.iso_code }}"
+          class="lang-switcher__btn{% if language.iso_code == localization.language.iso_code %} is-active{% endif %}"
+          {% if language.iso_code == localization.language.iso_code %}
+            aria-current="true"
+          {% endif %}
+        >
+          {{ language.iso_code | upcase }}
+        </button>
+        {% unless forloop.last %}
+          <span class="lang-switcher__sep" aria-hidden="true">/</span>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  {% endform %}
+{% endif %}

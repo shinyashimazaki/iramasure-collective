@@ -69,8 +69,7 @@
     display: flex;
   }
 
-  #header-component[data-menu-style='menu'] .menu-list__link,
-  #header-component[data-menu-style='menu'] .dropdown-localization__button {
+  #header-component[data-menu-style='menu'] .menu-list__link {
     font-size: 0.875rem;
     letter-spacing: 0.04em;
     text-decoration: none;
@@ -79,16 +78,47 @@
     box-shadow: none;
   }
 
-  #header-component[data-menu-style='menu'] .dropdown-localization__button {
-    min-height: 44px;
-    padding-inline: 0;
-    gap: 0.35rem;
-  }
-
   /* Prefer text nav over hamburger on desktop */
   #header-component[data-menu-style='menu'] .header__drawer {
     display: none !important;
   }
+}
+
+/* Shared language switcher (hero + sticky header) */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lang-switcher__btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-body--family);
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  opacity: 0.55;
+}
+
+.lang-switcher__btn.is-active {
+  opacity: 1;
+}
+
+.lang-switcher__sep {
+  opacity: 0.35;
+  font-size: 0.875rem;
+}
+
+#header-component .header-lang-switcher {
+  display: flex;
+  align-items: center;
 }
 
 /* Logo size + salon-like width animation */
@@ -103,10 +133,6 @@
     filter 0.45s ease;
 }
 
-#header-component .dropdown-localization__button .icon-caret {
-  width: 0.65em;
-  height: 0.65em;
-}
 
 /* Drawer (mobile fallback) still uses icon-only toggle */
 #header-component .header__icon--menu {
