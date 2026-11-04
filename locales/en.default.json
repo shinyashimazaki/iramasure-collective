@@ -375,6 +375,8 @@
     "footer": {
       "card_shop": "Visit the Shop",
       "card_shop_detail": "Japanese goods for everyday life in Berlin.",
+      "shop_address_html": "<p>Winterfeldtstraße 13<br>10781 Berlin</p>",
+      "shop_hours_html": "<p>Tue – Wed: 09:00–19:00<br>Thu – Fri: 10:00–19:00<br>Sat: 10:00–18:00<br>Mon, Sun: Closed</p>",
       "card_contact": "Contact",
       "card_contact_detail": "Questions about products, gifts, or shipping.",
       "card_instagram_detail": "Stories from makers and new arrivals.",
