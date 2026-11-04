@@ -22,6 +22,44 @@
   justify-content: center;
 }
 
+/*
+  Drawer mode uses a 5-column bookend grid + display:contents, which can
+  optically shift the logo. Pin it to the true center of the header row.
+*/
+#header-component[data-menu-style='drawer'] .header__row--top .header__columns {
+  position: relative;
+}
+
+#header-component[data-menu-style='drawer'] .header__row--top .header-logo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  grid-area: unset !important;
+}
+
+/* Keep Menu + actions on the right so the logo stays visually balanced */
+#header-component[data-menu-style='drawer'] .header__drawer {
+  grid-area: rightB;
+  justify-self: end;
+}
+
+#header-component[data-menu-style='drawer'] header-actions {
+  grid-area: rightA;
+  justify-self: end;
+}
+
+#header-component[data-menu-style='drawer'] .dropdown-localization {
+  display: flex;
+  grid-area: leftA;
+  justify-self: start;
+}
+
 /* Sticky / solid header logo = smaller (salon is-solid size) */
 #header-component .header-logo__image,
 #header-component .header-logo__image-container .header-logo__image {
