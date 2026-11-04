@@ -15,7 +15,7 @@
     assign use_fallback = false
     if slide_count == 0
       assign use_fallback = true
-      assign fallback_slides = 'shop-slide-01,shop-slide-02,shop-slide-03,shop-slide-04' | split: ','
+      assign fallback_slides = 'shop-slide-02,shop-slide-01,shop-slide-03,shop-slide-04' | split: ','
       assign slide_count = fallback_slides.size
     endif
   %}
