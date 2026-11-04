@@ -15,19 +15,22 @@
         "slide_1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/photo-1780498178879-4064b19e6517.avif"
+            "image": "shopify://shop_images/photo-1780498178879-4064b19e6517.avif",
+            "photographer": ""
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/photo-1545569341-9eb8b30979d9.avif"
+            "image": "shopify://shop_images/photo-1545569341-9eb8b30979d9.avif",
+            "photographer": ""
           }
         },
         "slide_3": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/photo-1785062897723-b72450b2f49e.avif"
+            "image": "shopify://shop_images/photo-1785062897723-b72450b2f49e.avif",
+            "photographer": ""
           }
         }
       },

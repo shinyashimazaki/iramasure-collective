@@ -12,6 +12,9 @@
       <div
         class="home-hero__slide{% if forloop.first %} is-active{% endif %}"
         data-slide-index="{{ forloop.index0 }}"
+        {% if block.settings.photographer != blank %}
+          data-photographer="{{ block.settings.photographer | escape }}"
+        {% endif %}
         {{ block.shopify_attributes }}
       >
         {% liquid
@@ -115,6 +118,21 @@
       assign hero_heading = section.settings.heading
     endif
   %}
+  {% liquid
+    assign first_photographer = ''
+    for block in section.blocks
+      if forloop.first and block.settings.photographer != blank
+        assign first_photographer = block.settings.photographer
+      endif
+    endfor
+  %}
+  <p
+    class="home-hero__photographer{% if first_photographer == blank %} is-empty{% endif %}"
+    data-home-hero-photographer
+  >
+    {{- first_photographer | escape -}}
+  </p>
+
   {% if hero_heading != blank %}
     <div class="home-hero__content">
       <h2 class="home-hero__heading">{{ hero_heading | escape }}</h2>
@@ -277,6 +295,27 @@
     filter: brightness(0) invert(1);
   }
 
+  .home-hero__photographer {
+    position: absolute;
+    left: var(--site-nav-pad-inline, var(--page-margin, 1.5rem));
+    bottom: 2.5rem;
+    z-index: 3;
+    margin: 0;
+    max-width: min(18rem, 42vw);
+    color: #f7f4ef;
+    font-family: var(--font-body--family);
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    opacity: 0.72;
+    pointer-events: none;
+  }
+
+  .home-hero__photographer.is-empty {
+    visibility: hidden;
+  }
+
   .home-hero__content {
     position: absolute;
     left: 0;
@@ -285,10 +324,11 @@
     z-index: 3;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-end;
-    text-align: left;
+    text-align: center;
     padding: 0 var(--site-nav-pad-inline, var(--page-margin, 1.5rem)) 2.5rem;
+    pointer-events: none;
   }
 
   .home-hero__heading {
@@ -299,12 +339,12 @@
     font-weight: 400;
     line-height: 1.55;
     letter-spacing: 0;
-    text-align: left;
+    text-align: center;
   }
 
   .home-hero__dots {
     position: absolute;
-    right: 1.25rem;
+    right: var(--site-nav-pad-inline, var(--page-margin, 1.5rem));
     bottom: 1.75rem;
     z-index: 3;
     display: flex;
@@ -378,6 +418,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "photographer",
+          "label": "Photographer",
+          "info": "Shown small at the bottom left while this slide is active."
         }
       ]
     }

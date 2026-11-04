@@ -4,11 +4,19 @@
 
   const slides = [...root.querySelectorAll('.home-hero__slide')];
   const dots = [...root.querySelectorAll('[data-hero-dot]')];
+  const credit = root.querySelector('[data-home-hero-photographer]');
   if (slides.length < 2) return;
 
   const intervalMs = (Number.parseFloat(getComputedStyle(root).getPropertyValue('--home-hero-interval')) || 5) * 1000;
   let index = 0;
   let timer;
+
+  const updateCredit = (slide) => {
+    if (!credit) return;
+    const name = slide?.dataset.photographer?.trim() || '';
+    credit.textContent = name;
+    credit.classList.toggle('is-empty', name === '');
+  };
 
   const show = (next) => {
     index = (next + slides.length) % slides.length;
@@ -18,6 +26,7 @@
       dot.classList.toggle('is-active', active);
       dot.setAttribute('aria-selected', active ? 'true' : 'false');
     });
+    updateCredit(slides[index]);
   };
 
   const play = () => {
@@ -33,5 +42,6 @@
     });
   });
 
+  updateCredit(slides[index]);
   play();
 })();
