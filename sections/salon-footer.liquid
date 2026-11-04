@@ -1,0 +1,534 @@
+{%- comment -%}
+  Salon-site style footer for IRAMASURE Collective:
+  dark band, optional feature cards, 3-column nav, wide logo + meta.
+{%- endcomment -%}
+
+<div class="salon-footer" {{ section.shopify_attributes }}>
+  <div class="salon-footer__inner">
+    {% if section.blocks.size > 0 %}
+      <div class="salon-footer__cards">
+        {% for block in section.blocks %}
+          {% liquid
+            assign card_label = block.settings.label
+            assign card_link = block.settings.link
+            assign card_detail = block.settings.detail
+            assign card_image = block.settings.image
+            assign is_external = false
+            if card_link contains 'http'
+              assign is_external = true
+            endif
+          %}
+          <div class="salon-footer__card" {{ block.shopify_attributes }}>
+            {% if card_link != blank %}
+              <a
+                class="salon-footer__card-link"
+                href="{{ card_link }}"
+                {% if is_external %}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                {% endif %}
+              >
+                <span class="salon-footer__card-thumb">
+                  {% if card_image != blank %}
+                    {{
+                      card_image
+                      | image_url: width: 240
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '120, 180, 240',
+                        sizes: '80px',
+                        alt: card_label
+                    }}
+                  {% else %}
+                    <span class="salon-footer__card-thumb-fallback" aria-hidden="true"></span>
+                  {% endif %}
+                </span>
+                <span class="salon-footer__card-label">
+                  {{ card_label | escape }}
+                  <span class="salon-footer__arrow" aria-hidden="true">↗</span>
+                </span>
+              </a>
+            {% endif %}
+
+            {% if card_detail != blank %}
+              <div class="salon-footer__card-detail">
+                {{ card_detail }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="salon-footer__nav">
+      <div class="salon-footer__nav-col">
+        <p class="salon-footer__nav-title">{{ section.settings.nav_1_title | escape }}</p>
+        <ul class="salon-footer__nav-list">
+          {% assign menu_1 = linklists[section.settings.nav_1_menu] %}
+          {% if menu_1 != blank %}
+            {% for link in menu_1.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title | escape }}</a>
+              </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="salon-footer__nav-col">
+        <p class="salon-footer__nav-title">{{ section.settings.nav_2_title | escape }}</p>
+        <ul class="salon-footer__nav-list">
+          {% assign menu_2 = linklists[section.settings.nav_2_menu] %}
+          {% if menu_2 != blank %}
+            {% for link in menu_2.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title | escape }}</a>
+              </li>
+            {% endfor %}
+          {% else %}
+            {% for policy in shop.policies %}
+              {% if policy != blank %}
+                <li>
+                  <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="salon-footer__nav-col">
+        <p class="salon-footer__nav-title">{{ section.settings.nav_3_title | escape }}</p>
+        <ul class="salon-footer__nav-list">
+          {% if section.settings.instagram_url != blank %}
+            <li>
+              <a
+                class="salon-footer__external"
+                href="{{ section.settings.instagram_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+                <span class="salon-footer__arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          {% endif %}
+          {% if section.settings.facebook_url != blank %}
+            <li>
+              <a
+                class="salon-footer__external"
+                href="{{ section.settings.facebook_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Facebook
+                <span class="salon-footer__arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          {% endif %}
+          {% if section.settings.contact_link != blank %}
+            <li>
+              <a href="{{ section.settings.contact_link }}">
+                {{ section.settings.contact_label | default: 'Contact' | escape }}
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="salon-footer__meta">
+      <div class="salon-footer__logo">
+        {% if settings.logo != blank %}
+          <img
+            src="{{ settings.logo | image_url: width: 1600 }}"
+            alt="{{ shop.name | escape }}"
+            width="{{ settings.logo.width }}"
+            height="{{ settings.logo.height }}"
+            loading="lazy"
+          >
+        {% else %}
+          <img
+            src="{{ 'logo.svg' | asset_url }}"
+            alt="{{ shop.name | escape }}"
+            width="293"
+            height="67"
+            loading="lazy"
+          >
+        {% endif %}
+      </div>
+
+      <div class="salon-footer__meta-row">
+        <p class="salon-footer__copyright">
+          &copy; {{ 'now' | date: '%Y' }}
+          {{ shop.name | escape }}.
+          {{ section.settings.rights_label | default: 'All rights reserved.' | escape }}
+        </p>
+
+        <nav class="salon-footer__legal" aria-label="{{ section.settings.legal_label | default: 'Legal' | escape }}">
+          {% for policy in shop.policies %}
+            {% if policy != blank %}
+              <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+            {% endif %}
+          {% endfor %}
+        </nav>
+
+        <button type="button" class="salon-footer__top" data-salon-footer-top>
+          {{ section.settings.top_label | default: 'Back to top' | escape }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const btn = document.querySelector('[data-salon-footer-top]');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+</script>
+
+{% stylesheet %}
+  .salon-footer {
+    --salon-footer-bg: #1f1f1f;
+    --salon-footer-fg: #f7f4ef;
+    --salon-footer-muted: rgba(247, 244, 239, 0.62);
+    --salon-footer-card: rgba(247, 247, 247, 0.1);
+    --salon-footer-gap: 1rem;
+
+    background: var(--salon-footer-bg);
+    color: var(--salon-footer-fg);
+  }
+
+  .salon-footer__inner {
+    width: min(90rem, calc(100% - 2 * max(var(--page-margin, 1.5rem), 5.3vw)));
+    margin-inline: auto;
+    padding: clamp(3rem, 6vw, 4.5rem) 0 clamp(1.75rem, 3vw, 2.25rem);
+  }
+
+  .salon-footer__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  @media screen and (min-width: 900px) {
+    .salon-footer__cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .salon-footer__card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .salon-footer__card-link {
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+    min-height: 5.5rem;
+    padding: 0.25rem 1.25rem 0.25rem 0.25rem;
+    background: var(--salon-footer-card);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .salon-footer__card-link:hover {
+    background: rgba(247, 247, 247, 0.16);
+  }
+
+  .salon-footer__card-thumb {
+    flex: 0 0 4.75rem;
+    width: 4.75rem;
+    height: 4.75rem;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .salon-footer__card-thumb img,
+  .salon-footer__card-thumb-fallback {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .salon-footer__card-thumb-fallback {
+    background: linear-gradient(135deg, #3a3a3a, #151515);
+  }
+
+  .salon-footer__card-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+
+  .salon-footer__card-detail {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--salon-footer-muted);
+  }
+
+  .salon-footer__card-detail p {
+    margin: 0 0 0.35em;
+  }
+
+  .salon-footer__card-detail p:last-child {
+    margin-bottom: 0;
+  }
+
+  .salon-footer__nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .salon-footer__nav {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .salon-footer__nav-title {
+    margin: 0 0 0.35rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+  }
+
+  .salon-footer__nav-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .salon-footer__nav-list a,
+  .salon-footer__legal a,
+  .salon-footer__top {
+    color: var(--salon-footer-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .salon-footer__nav-list a:hover,
+  .salon-footer__legal a:hover,
+  .salon-footer__top:hover,
+  .salon-footer__external:hover {
+    color: var(--salon-footer-fg);
+  }
+
+  .salon-footer__external {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .salon-footer__arrow {
+    font-size: 0.8em;
+    line-height: 1;
+  }
+
+  .salon-footer__meta {
+    border-top: 0;
+    padding-top: 0.5rem;
+  }
+
+  .salon-footer__logo {
+    margin-bottom: 1.5rem;
+  }
+
+  .salon-footer__logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    filter: brightness(0) invert(1);
+  }
+
+  .salon-footer__meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+
+  @media screen and (min-width: 900px) {
+    .salon-footer__meta-row {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+  }
+
+  .salon-footer__copyright {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--salon-footer-muted);
+  }
+
+  .salon-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.1rem;
+  }
+
+  .salon-footer__top {
+    margin-left: 0;
+  }
+
+  @media screen and (min-width: 900px) {
+    .salon-footer__top {
+      margin-left: auto;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Salon footer",
+  "tag": "div",
+  "class": "section-salon-footer",
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Feature card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Thumbnail"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Visit the Shop"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "richtext",
+          "id": "detail",
+          "label": "Detail text"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "nav_1_title",
+      "label": "Nav 1 title",
+      "default": "Explore"
+    },
+    {
+      "type": "link_list",
+      "id": "nav_1_menu",
+      "label": "Nav 1 menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "nav_2_title",
+      "label": "Nav 2 title",
+      "default": "Info"
+    },
+    {
+      "type": "link_list",
+      "id": "nav_2_menu",
+      "label": "Nav 2 menu",
+      "info": "Leave blank to list shop policies automatically."
+    },
+    {
+      "type": "text",
+      "id": "nav_3_title",
+      "label": "Nav 3 title",
+      "default": "Connect"
+    },
+    {
+      "type": "text",
+      "id": "instagram_url",
+      "label": "Instagram URL",
+      "default": "https://www.instagram.com/iramasure_collective/"
+    },
+    {
+      "type": "text",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact link"
+    },
+    {
+      "type": "text",
+      "id": "contact_label",
+      "label": "Contact label",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "rights_label",
+      "label": "Rights label",
+      "default": "All rights reserved."
+    },
+    {
+      "type": "text",
+      "id": "legal_label",
+      "label": "Legal nav label",
+      "default": "Legal"
+    },
+    {
+      "type": "text",
+      "id": "top_label",
+      "label": "Back to top label",
+      "default": "Back to top"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Salon footer",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "label": "Visit the Shop"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "label": "Contact"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "label": "Instagram"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

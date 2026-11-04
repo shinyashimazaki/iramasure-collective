@@ -11,6 +11,54 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "salon_footer": {
+      "type": "salon-footer",
+      "blocks": {
+        "card_shop": {
+          "type": "card",
+          "settings": {
+            "label": "Visit the Shop",
+            "link": "/pages/shop",
+            "detail": "<p>Japanese goods for everyday life in Berlin.</p>"
+          }
+        },
+        "card_contact": {
+          "type": "card",
+          "settings": {
+            "label": "Contact",
+            "link": "/pages/contact",
+            "detail": "<p>Questions about products, gifts, or shipping.</p>"
+          }
+        },
+        "card_instagram": {
+          "type": "card",
+          "settings": {
+            "label": "Instagram",
+            "link": "https://www.instagram.com/iramasure_collective/",
+            "detail": "<p>Stories from makers and new arrivals.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_shop",
+        "card_contact",
+        "card_instagram"
+      ],
+      "settings": {
+        "nav_1_title": "Explore",
+        "nav_1_menu": "main-menu",
+        "nav_2_title": "Info",
+        "nav_2_menu": "",
+        "nav_3_title": "Connect",
+        "instagram_url": "https://www.instagram.com/iramasure_collective/",
+        "facebook_url": "",
+        "contact_link": "/pages/contact",
+        "contact_label": "Contact",
+        "rights_label": "All rights reserved.",
+        "legal_label": "Legal",
+        "top_label": "Back to top"
+      }
+    },
     "footer_m9NzUG": {
       "type": "footer",
       "blocks": {
@@ -194,6 +242,7 @@
         "footer_policy_list_VCdnpa",
         "social_links_Ew63Kq"
       ],
+      "disabled": true,
       "name": "t:names.utilities",
       "settings": {
         "section_width": "page-width",
@@ -206,6 +255,7 @@
     }
   },
   "order": [
+    "salon_footer",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]
