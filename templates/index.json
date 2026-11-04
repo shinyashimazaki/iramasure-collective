@@ -90,6 +90,7 @@
         "item_obi",
         "item_houjicha"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "cta_label": "Discover"
@@ -229,8 +230,8 @@
     "home_hero",
     "home_lead",
     "home_journey",
+    "product_list_fa6P9H",
     "home_feature",
-    "home_cta",
-    "product_list_fa6P9H"
+    "home_cta"
   ]
 }
