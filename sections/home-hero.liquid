@@ -1,5 +1,6 @@
 {%- comment -%}
-  Full-viewport hero. Slides come from Theme settings → Brand slides (shared with footer).
+  Fixed full-viewport hero. Content sections scroll over it.
+  Slides: Theme settings → Brand slides.
 {%- endcomment -%}
 
 {% liquid
@@ -16,46 +17,48 @@
 %}
 
 <section class="home-hero" data-home-hero>
-  {% render 'brand-slides', context: 'hero', section: section %}
+  <div class="home-hero__stage">
+    {% render 'brand-slides', context: 'hero', section: section %}
 
-  {% render 'home-hero-nav', menu_handle: section.settings.menu %}
+    {% render 'home-hero-nav', menu_handle: section.settings.menu %}
 
-  {% if section.settings.show_logo %}
-    <div class="home-hero__logo-wrap">
-      {% if settings.logo != blank %}
-        <img
-          class="home-hero__logo"
-          src="{{ settings.logo | image_url: width: 720 }}"
-          alt="{{ shop.name | escape }}"
-          width="{{ settings.logo.width }}"
-          height="{{ settings.logo.height }}"
-          loading="eager"
-        >
-      {% else %}
-        <img
-          class="home-hero__logo"
-          src="{{ 'logo.svg' | asset_url }}"
-          alt="{{ shop.name | escape }}"
-          width="293"
-          height="67"
-          loading="eager"
-        >
-      {% endif %}
-    </div>
-  {% endif %}
+    {% if section.settings.show_logo %}
+      <div class="home-hero__logo-wrap">
+        {% if settings.logo != blank %}
+          <img
+            class="home-hero__logo"
+            src="{{ settings.logo | image_url: width: 720 }}"
+            alt="{{ shop.name | escape }}"
+            width="{{ settings.logo.width }}"
+            height="{{ settings.logo.height }}"
+            loading="eager"
+          >
+        {% else %}
+          <img
+            class="home-hero__logo"
+            src="{{ 'logo.svg' | asset_url }}"
+            alt="{{ shop.name | escape }}"
+            width="293"
+            height="67"
+            loading="eager"
+          >
+        {% endif %}
+      </div>
+    {% endif %}
 
-  {% liquid
-    assign hero_heading = 'home.hero.heading' | t
-    if hero_heading == blank or hero_heading == 'home.hero.heading'
-      assign hero_heading = section.settings.heading
-    endif
-  %}
+    {% liquid
+      assign hero_heading = 'home.hero.heading' | t
+      if hero_heading == blank or hero_heading == 'home.hero.heading'
+        assign hero_heading = section.settings.heading
+      endif
+    %}
 
-  {% if hero_heading != blank %}
-    <div class="home-hero__content">
-      <h2 class="home-hero__heading">{{ hero_heading | escape }}</h2>
-    </div>
-  {% endif %}
+    {% if hero_heading != blank %}
+      <div class="home-hero__content">
+        <h2 class="home-hero__heading">{{ hero_heading | escape }}</h2>
+      </div>
+    {% endif %}
+  </div>
 </section>
 
 {% if brand_slide_count > 1 %}
@@ -65,19 +68,75 @@
 {% stylesheet %}
   .home-hero {
     --home-hero-bottom-inset: 2.5rem;
+    --home-hero-z: 0;
 
     position: relative;
     width: 100%;
-    min-height: 100svh;
-    overflow: visible;
+    height: 100svh;
+    margin: 0;
+    color: #f7f4ef;
+    background: transparent;
+    /* Document-flow spacer; visual stage is fixed underneath scrolling content */
+    pointer-events: none;
+    z-index: var(--home-hero-z);
+  }
+
+  .home-hero__stage {
+    position: fixed;
+    inset: 0;
+    z-index: var(--home-hero-z);
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
     color: #f7f4ef;
     background: #111;
+    pointer-events: none;
+    transform: translateZ(0);
+    will-change: opacity;
+  }
+
+  .home-hero__stage > * {
+    pointer-events: auto;
+  }
+
+  /* Keep fixed stage until the spacer has left the viewport; then release for paint/perf */
+  body.template-index.is-past-hero .home-hero__stage {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__stage {
+      position: absolute;
+      will-change: auto;
+    }
+
+    body.template-index.is-past-hero .home-hero__stage {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   .home-hero .brand-slides {
     position: absolute;
     inset: 0;
     z-index: 1;
+  }
+
+  /* Following homepage sections scroll over the fixed hero */
+  body.template-index #MainContent > .shopify-section:not(:has([data-home-hero])) {
+    position: relative;
+    z-index: 2;
+  }
+
+  body.template-index footer {
+    position: relative;
+    z-index: 2;
+  }
+
+  body.template-index.is-past-hero #header-group {
+    z-index: 20;
   }
 
   .home-hero .brand-slides__dots.home-hero__dots {
@@ -238,7 +297,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Photos are managed in Theme settings → Brand slides (also used above the footer)."
+      "content": "Photos are managed in Theme settings → Brand slides. The hero stays fixed while page content scrolls over it."
     },
     {
       "type": "checkbox",

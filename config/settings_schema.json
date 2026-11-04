@@ -12,7 +12,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Shared photos for the homepage hero and footer. Edit once; both places update together."
+        "content": "Homepage hero photos. Managed in one place for the fixed hero experience."
       },
       {
         "type": "image_picker",
@@ -63,12 +63,6 @@
         "step": 1,
         "unit": "s",
         "default": 5
-      },
-      {
-        "type": "checkbox",
-        "id": "brand_slides_in_footer",
-        "label": "Show slides above footer",
-        "default": true
       }
     ]
   },

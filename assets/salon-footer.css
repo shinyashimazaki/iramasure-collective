@@ -7,18 +7,6 @@
   color: var(--salon-footer-fg);
 }
 
-.salon-footer__slides {
-  position: relative;
-  width: 100%;
-  height: clamp(16rem, 42vw, 28rem);
-  overflow: hidden;
-}
-
-.salon-footer__slides .brand-slides {
-  position: absolute;
-  inset: 0;
-}
-
 .salon-footer__inner {
   width: min(90rem, calc(100% - 2 * max(var(--page-margin, 1.5rem), 5.3vw)));
   margin-inline: auto;
