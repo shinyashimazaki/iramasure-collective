@@ -62,15 +62,6 @@
             "link": ""
           }
         },
-        "item_houjicha": {
-          "type": "item",
-          "settings": {
-            "product": "houjicha",
-            "title": "houjicha",
-            "place": "Uji",
-            "link": ""
-          }
-        },
         "item_obi": {
           "type": "item",
           "settings": {
@@ -79,12 +70,21 @@
             "place": "Kyoto",
             "link": ""
           }
+        },
+        "item_houjicha": {
+          "type": "item",
+          "settings": {
+            "product": "houjicha",
+            "title": "houjicha",
+            "place": "Uji",
+            "link": ""
+          }
         }
       },
       "block_order": [
         "item_matcha",
-        "item_houjicha",
-        "item_obi"
+        "item_obi",
+        "item_houjicha"
       ],
       "settings": {
         "color_scheme": "scheme-1",
