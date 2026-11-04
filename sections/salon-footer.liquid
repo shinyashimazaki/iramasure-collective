@@ -156,10 +156,15 @@
         </p>
 
         <nav class="salon-footer__legal" aria-label="{{ section.settings.legal_label | default: 'Legal' | escape }}">
-          {% for policy in shop.policies %}
-            {% if policy != blank %}
-              <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
-            {% endif %}
+          {% liquid
+            assign legal_handles = 'legal-notice,privacy-policy,terms-of-service,shipping-policy,refund-policy' | split: ','
+          %}
+          {% for handle in legal_handles %}
+            {% for policy in shop.policies %}
+              {% if policy != blank and policy.url contains handle %}
+                <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+              {% endif %}
+            {% endfor %}
           {% endfor %}
         </nav>
 
