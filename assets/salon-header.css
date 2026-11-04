@@ -2,12 +2,18 @@
 
 :root {
   --site-nav-pad-block: 20px;
-  --site-nav-pad-inline: var(--page-margin, 1.25rem);
+  /* Fallback only — body below resolves against real --page-margin */
+  --site-nav-pad-inline: 1.25rem;
   --site-nav-gap: clamp(18px, 2vw, 28px);
   --site-nav-font-size: 0.875rem;
   --site-nav-letter-spacing: 0.04em;
   --site-nav-control-size: 44px;
   --site-nav-height: calc(var(--site-nav-pad-block) * 2 + var(--site-nav-control-size));
+}
+
+/* --page-margin lives on body.page-width-*, not :root — resolve here so both navs match the page grid */
+body {
+  --site-nav-pad-inline: var(--page-margin);
 }
 
 #header-component {
@@ -43,6 +49,7 @@
   max-width: none;
   grid-column: 1 / -1 !important;
   padding-block: var(--salon-header-pad-top) var(--salon-header-pad-bottom) !important;
+  /* Same outer inset as .home-hero__nav — beat section--full-width-margin + drawer overrides */
   padding-inline: var(--site-nav-pad-inline) !important;
   margin-inline: 0 !important;
   transition: padding 0.55s var(--salon-ease);
@@ -51,11 +58,27 @@
 /* Match hero: full-bleed row, outer inset only via --site-nav-pad-inline */
 #header-component .header__row--top.section {
   width: 100%;
+  /* Collapse Horizon's page-margin grid tracks so inset isn't applied twice */
+  --full-page-grid-margin: minmax(0, 0fr);
+  --full-page-grid-with-margins: 0 minmax(0, 1fr) 0;
+  grid-template-columns: 0 minmax(0, 1fr) 0;
 }
 
 #header-component .header__row--top.section--page-width > *,
-#header-component .header__row--top.section--full-width > * {
+#header-component .header__row--top.section--full-width > *,
+#header-component .header__row--top.section--full-width.section--full-width-margin > * {
   grid-column: 1 / -1 !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Horizon pulls cart/actions past the content edge — cancel so edges match hero */
+#header-component .header__column--right header-actions {
+  margin-inline-start: 0;
+}
+
+#header-component .cart-drawer {
+  margin-inline-end: 0;
 }
 
 #header-component .header-logo {
