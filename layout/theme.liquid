@@ -111,10 +111,15 @@
 
         // Desktop width: horizontal text menu (Home / Category / Contact …).
         // Narrow screens / overflow: drawer fallback only.
+        // Keep in sync with setHeaderMenuStyle() in utilities.js
         const overflowList = headerComponent.querySelector('overflow-list');
-        const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
         const isNarrow = window.matchMedia('(max-width: 749px)').matches;
-        headerComponent.dataset.menuStyle = isNarrow || hasReachedMinimum ? 'drawer' : 'menu';
+        if (isNarrow) {
+          headerComponent.dataset.menuStyle = 'drawer';
+          return;
+        }
+        const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
+        headerComponent.dataset.menuStyle = hasReachedMinimum ? 'drawer' : 'menu';
       })();
     </script>
 

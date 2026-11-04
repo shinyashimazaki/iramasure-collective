@@ -119,6 +119,8 @@ class HeaderComponent extends Component {
       this.#menuDrawerHiddenWidth = window.innerWidth;
     } else {
       this.#menuDrawerHiddenWidth = null;
+      // Clear stuck overflow state so the desktop menu can remount and remeasure.
+      this.querySelector('overflow-list')?.removeAttribute('minimum-reached');
     }
     setHeaderMenuStyle();
   }

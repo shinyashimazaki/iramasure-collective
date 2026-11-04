@@ -700,19 +700,49 @@ export class ResizeNotifier extends ResizeObserver {
 }
 
 /**
+ * Ask every overflow-list to remeasure (needed after display:none ↔ visible).
+ */
+function reflowOverflowLists(root = document) {
+  root.querySelectorAll('overflow-list').forEach((list) => {
+    list.dispatchEvent(new CustomEvent('reflow', { detail: {} }));
+  });
+}
+
+/**
  * Sets the menuStyle dataset attribute on the header component element.
  */
 export function setHeaderMenuStyle() {
   const headerComponent = /** @type {HTMLElement} | null */ (document.querySelector('#header-component'));
-  if (headerComponent) {
-    window.requestAnimationFrame(() => {
-      const overflowList = headerComponent?.querySelector('overflow-list');
-      const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
-      // Prefer horizontal text nav from 750px up; drawer only on narrow/overflow.
-      const isNarrow = window.matchMedia('(max-width: 749px)').matches;
-      headerComponent.dataset.menuStyle = isNarrow || hasReachedMinimum ? 'drawer' : 'menu';
-    });
-  }
+  if (!headerComponent) return;
+
+  window.requestAnimationFrame(() => {
+    const overflowList = headerComponent.querySelector('overflow-list');
+    // Prefer horizontal text nav from 750px up; drawer only on narrow/overflow.
+    const isNarrow = window.matchMedia('(max-width: 749px)').matches;
+
+    if (isNarrow) {
+      headerComponent.dataset.menuStyle = 'drawer';
+      return;
+    }
+
+    // Drawer mode hides the desktop menu, so overflow-list cannot clear minimum-reached
+    // on its own after the viewport widens again. Recover, then remeasure.
+    if (headerComponent.dataset.menuStyle === 'drawer') {
+      overflowList?.removeAttribute('minimum-reached');
+      headerComponent.dataset.menuStyle = 'menu';
+      requestAnimationFrame(() => {
+        reflowOverflowLists();
+        requestAnimationFrame(() => {
+          const stillMinimum = overflowList?.hasAttribute('minimum-reached');
+          headerComponent.dataset.menuStyle = stillMinimum ? 'drawer' : 'menu';
+        });
+      });
+      return;
+    }
+
+    const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
+    headerComponent.dataset.menuStyle = hasReachedMinimum ? 'drawer' : 'menu';
+  });
 }
 
 /**

@@ -229,6 +229,9 @@ export class OverflowList extends DeclarativeShadowElement {
   #updateMinimumReached(visibleElements) {
     if (this.minimumItems !== null) {
       const minimumReached = visibleElements.length < this.minimumItems;
+      const wasMinimumReached = this.hasAttribute('minimum-reached');
+
+      if (minimumReached === wasMinimumReached) return;
 
       if (minimumReached) {
         this.setAttribute('minimum-reached', '');
@@ -338,7 +341,8 @@ export class OverflowList extends DeclarativeShadowElement {
     // Reset the overflow property since children elements may need to display outside the list (e.g. dropdowns, popovers).
     list.style.setProperty('overflow', 'unset');
 
-    hasOverflow && this.#updateMinimumReached(visibleElements);
+    // Always update — otherwise minimum-reached sticks after widening when overflow clears.
+    this.#updateMinimumReached(visibleElements);
 
     this.#observeChanges();
   };
