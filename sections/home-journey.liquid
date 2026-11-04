@@ -1,64 +1,86 @@
 <section class="home-journey color-{{ section.settings.color_scheme }}">
-  <div class="home-journey__track" data-home-journey-track>
-    {% for block in section.blocks %}
-      {% liquid
-        assign product = block.settings.product
-        assign card_title = block.settings.title
-        assign card_place = block.settings.place
-        assign card_link = block.settings.link
-        assign card_image = block.settings.image
+  <div class="home-journey__carousel" data-home-journey>
+    <button
+      type="button"
+      class="home-journey__nav home-journey__nav--prev"
+      data-home-journey-prev
+      aria-label="{{ 'accessibility.slideshow_previous' | t }}"
+    >
+      <span aria-hidden="true">‹</span>
+    </button>
 
-        if product != blank
-          if card_title == blank
-            assign card_title = product.title
-          endif
-          if card_link == blank
-            assign card_link = product.url
-          endif
-          if card_image == blank
-            assign card_image = product.featured_image
-          endif
-        endif
-      %}
+    <div class="home-journey__track" data-home-journey-track>
+      {% for block in section.blocks %}
+        {% liquid
+          assign product = block.settings.product
+          assign card_title = block.settings.title
+          assign card_place = block.settings.place
+          assign card_link = block.settings.link
+          assign card_image = block.settings.image
 
-      <article class="home-journey__card" {{ block.shopify_attributes }}>
-        <div class="home-journey__media">
-          {% if card_image != blank %}
-            {{
-              card_image
-              | image_url: width: 1600
-              | image_tag:
-                class: 'home-journey__image',
-                widths: '600, 900, 1200, 1600',
-                sizes: '(min-width: 900px) 42vw, 88vw',
+          if product != blank
+            if card_title == blank
+              assign card_title = product.title
+            endif
+            if card_link == blank
+              assign card_link = product.url
+            endif
+            if card_image == blank
+              assign card_image = product.featured_image
+            endif
+          endif
+        %}
+
+        <article class="home-journey__card" {{ block.shopify_attributes }}>
+          <div class="home-journey__media">
+            {% if card_image != blank %}
+              {{
+                card_image
+                | image_url: width: 1600
+                | image_tag:
+                  class: 'home-journey__image',
+                  widths: '600, 900, 1200, 1600',
+                  sizes: '(min-width: 900px) 30vw, 78vw',
                 loading: 'lazy',
                 alt: card_title
             }}
-          {% else %}
-            {{ 'product-apparel-1' | placeholder_svg_tag: 'home-journey__image' }}
-          {% endif %}
-        </div>
-
-        <div class="home-journey__meta">
-          <p class="home-journey__name">
-            {% if card_title != blank %}
-              <span class="home-journey__title">{{ card_title | escape }}</span>
+            {% else %}
+              {{ 'product-apparel-1' | placeholder_svg_tag: 'home-journey__image' }}
             {% endif %}
-            {% if card_place != blank %}
-              <span class="home-journey__place">（{{ card_place | escape }}）</span>
-            {% endif %}
-          </p>
+          </div>
 
-          {% if card_link != blank %}
-            <a class="home-journey__link" href="{{ card_link }}">
-              {{ section.settings.cta_label | escape }}
-            </a>
-          {% endif %}
-        </div>
-      </article>
-    {% endfor %}
+          <div class="home-journey__meta">
+            <p class="home-journey__name">
+              {% if card_title != blank %}
+                <span class="home-journey__title">{{ card_title | escape }}</span>
+              {% endif %}
+              {% if card_place != blank %}
+                <span class="home-journey__place">（{{ card_place | escape }}）</span>
+              {% endif %}
+            </p>
+
+            {% if card_link != blank %}
+              <a class="home-journey__link" href="{{ card_link }}">
+                {{ section.settings.cta_label | escape }}
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    <button
+      type="button"
+      class="home-journey__nav home-journey__nav--next"
+      data-home-journey-next
+      aria-label="{{ 'accessibility.slideshow_next' | t }}"
+    >
+      <span aria-hidden="true">›</span>
+    </button>
   </div>
 </section>
+
+<script src="{{ 'home-journey.js' | asset_url }}" defer></script>
 
 {% stylesheet %}
   .home-journey {
@@ -68,17 +90,38 @@
     color: var(--color-foreground);
   }
 
+  .home-journey__carousel {
+    position: relative;
+  }
+
   .home-journey__track {
     display: flex;
     gap: 1rem;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    padding: 0 clamp(1.25rem, 4vw, 2.5rem) 0.5rem;
-    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+    cursor: grab;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .home-journey__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-journey__track.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+    user-select: none;
   }
 
   .home-journey__card {
-    flex: 0 0 min(78vw, 28rem);
+    flex: 0 0 min(78vw, 22rem);
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
@@ -99,6 +142,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: none;
   }
 
   .home-journey__meta {
@@ -145,10 +189,63 @@
     border-color: var(--color-foreground);
   }
 
+  .home-journey__nav {
+    position: absolute;
+    top: calc((min(78vw, 22rem) * 4 / 3) / 2);
+    z-index: 2;
+    transform: translateY(-50%);
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 25%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-background) 88%, transparent);
+    color: var(--color-foreground);
+    font-size: 1.5rem;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+
+  .home-journey__carousel.is-scrollable .home-journey__nav {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .home-journey__nav:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .home-journey__nav--prev {
+    left: 0.75rem;
+  }
+
+  .home-journey__nav--next {
+    right: 0.75rem;
+  }
+
+  .home-journey__nav:not(:disabled):hover {
+    background: var(--color-background);
+  }
+
   @media screen and (max-width: 749px) {
+    .home-journey__nav {
+      display: none;
+    }
+
     .home-journey__track {
       padding-left: 1.25rem;
       padding-right: 1.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-journey__track {
+      scroll-behavior: auto;
     }
   }
 {% endstylesheet %}
