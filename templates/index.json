@@ -38,16 +38,16 @@
       ],
       "settings": {
         "show_logo": true,
-        "heading": "A once-in-a-lifetime encounter with Japan's finest.",
+        "heading": "Japanese sense of life, right here in Berlin",
         "show_scroll_hint": true,
-        "autoplay_speed": 5
+        "autoplay_speed": 3
       }
     },
     "home_lead": {
       "type": "home-lead",
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "IRAMASURE. An encounter with Japan's finest goods.",
+        "heading": "Japanese sense of life, right here in Berlin",
         "body": "<p>Iramasure Collective is a gift brand that reflects the sensibility of Japanese culture in contemporary life.<br/><br/>It is a place where people and stories connect and resonate.<br/>Where art, lifestyle, and gifts intersect,<br/>new forms of beauty emerge.<br/><br/>At the heart of what we do lies the concept:<br/>“Japanese sense of life, right here in Berlin!”<br/><br/>We weave together timeless aesthetics with small moments that transform the everyday,<br/>creating new stories here in Berlin.<br/><br/>For both those who give and those who receive,<br/>we offer experiences you can encounter only here.</p>"
       }
     },
