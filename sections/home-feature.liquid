@@ -22,7 +22,7 @@
         | image_tag:
           class: 'home-feature__image',
           widths: '800, 1200, 1600, 2400',
-          sizes: '(min-width: 1100px) min(90rem, calc(100vw - 2 * var(--page-margin, 40px))), 100vw',
+          sizes: '(min-width: 750px) min(67.5rem, 75vw), 100vw',
           loading: 'lazy',
           alt: feature_alt
       }}
@@ -87,16 +87,28 @@
   }
 
   .home-feature__figure {
-    /* Match journey / WAZU content photos: ~75vw with roomy side margins */
+    /* Match journey / WAZU content photos: ~75vw band, ~2:1 like WAZU landscapes */
     width: min(67.5rem, calc(100% - 2 * max(var(--page-margin, 1.5rem), 12.5vw)));
     max-width: 100%;
     margin: clamp(3rem, 6vw, 4.5rem) auto;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
   }
 
   .home-feature__image {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     display: block;
+  }
+
+  @media screen and (max-width: 749px) {
+    .home-feature__figure {
+      /* Slightly taller on small screens so the crop doesn’t feel too thin */
+      aspect-ratio: 16 / 9;
+      width: calc(100% - 2 * var(--page-margin, 1.25rem));
+    }
   }
 
   .home-feature__caption {
