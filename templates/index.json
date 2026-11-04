@@ -194,7 +194,6 @@
           ]
         }
       },
-      "disabled": true,
       "name": "Featured collection",
       "settings": {
         "product_source": "manual",
