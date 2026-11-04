@@ -1,21 +1,30 @@
-/* Match https://iramasure.com/ header rhythm on Collective home:
-   - Large logo lives in the hero
-   - Header logo appears only after leaving the hero (slightly smaller)
-   - Solid header slides in past the hero
+/* Match https://iramasure.com/about/ header rhythm:
+   - Top: larger logo + generous padding
+   - Scrolled/compact: smaller logo + tighter padding
+   - Animated width/padding like the salon site
 */
 
 #header-component {
+  --salon-logo-width: clamp(140px, 14.22vw, 215px);
+  --salon-header-pad-top: 28px;
+  --salon-header-pad-bottom: 20px;
+  --salon-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#header-component.salon-header--compact {
   --salon-logo-width: clamp(120px, 11.8vw, 175px);
-  --salon-header-pad-y: 20px;
+  --salon-header-pad-top: 20px;
+  --salon-header-pad-bottom: 16px;
 }
 
 #header-component .header__row--top {
-  min-height: 64px;
+  min-height: 0;
 }
 
 #header-component .header__columns {
   align-items: center;
-  padding-block: var(--salon-header-pad-y);
+  padding-block: var(--salon-header-pad-top) var(--salon-header-pad-bottom);
+  transition: padding 0.55s var(--salon-ease);
 }
 
 #header-component .header-logo {
@@ -60,13 +69,16 @@
   justify-self: start;
 }
 
-/* Sticky / solid header logo = smaller (salon is-solid size) */
+/* Logo size + salon-like width animation */
 #header-component .header-logo__image,
 #header-component .header-logo__image-container .header-logo__image {
   width: var(--salon-logo-width) !important;
   height: auto !important;
   max-width: none !important;
   max-height: none !important;
+  transition:
+    width 0.55s var(--salon-ease),
+    filter 0.45s ease;
 }
 
 /* Right-side cluster: language + cart + Menu */
@@ -167,7 +179,7 @@ body.template-index.is-over-hero
   --color-primary-button-text: inherit;
 }
 
-/* Past hero: show smaller header logo + solid underlay */
+/* Past hero: show header logo + solid underlay */
 body.template-index.is-past-hero .header-logo[data-hidden-on-home-page] {
   display: flex !important;
 }
@@ -185,7 +197,7 @@ body.template-index.is-past-hero #header-component[transparent] {
 }
 
 body.template-index.is-past-hero #header-component.salon-header--solid {
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.55s var(--salon-ease);
   transform: translate3d(0, 0, 0);
 }
 
@@ -203,7 +215,15 @@ body.template-index.is-past-hero
 
 @media screen and (max-width: 749px) {
   #header-component {
+    --salon-logo-width: clamp(112px, 32vw, 136px);
+    --salon-header-pad-top: max(12px, env(safe-area-inset-top, 0px));
+    --salon-header-pad-bottom: 12px;
+  }
+
+  #header-component.salon-header--compact {
     --salon-logo-width: clamp(100px, 29vw, 122px);
+    --salon-header-pad-top: max(10px, env(safe-area-inset-top, 0px));
+    --salon-header-pad-bottom: 10px;
   }
 
   .home-hero__logo {
@@ -212,5 +232,13 @@ body.template-index.is-past-hero
 
   #header-component .header-drawer-menu-label {
     font-size: 0.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #header-component .header__columns,
+  #header-component .header-logo__image,
+  #header-component .header-logo__image-container .header-logo__image {
+    transition: none;
   }
 }
