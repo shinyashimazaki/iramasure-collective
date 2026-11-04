@@ -226,12 +226,22 @@ body.template-index.is-past-hero
     --salon-header-pad-bottom: 20px;
   }
 
-  .home-hero__logo {
-    width: clamp(140px, 48vw, 200px) !important;
+  /* Match salon mobile: language + Menu text hidden; icon toggle only */
+  #header-component[data-menu-style='drawer'] .dropdown-localization {
+    display: none !important;
   }
 
   #header-component .header-drawer-menu-label {
-    font-size: 0.875rem;
+    display: none;
+  }
+
+  #header-component .header__icon--menu {
+    gap: 0;
+    padding: 8px;
+  }
+
+  .home-hero__logo {
+    width: clamp(140px, 48vw, 200px) !important;
   }
 }
 
