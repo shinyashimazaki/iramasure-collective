@@ -1,0 +1,253 @@
+{% doc %}
+  Shared brand slide images from theme settings (hero + footer).
+  Falls back to section.blocks when settings are empty (hero only).
+
+  @param {string} context - 'hero' or 'footer'
+  @param {object} [section] - hero section (for block fallback + attributes)
+{% enddoc %}
+
+{% liquid
+  assign context = context | default: 'hero'
+  assign slide_count = 0
+  for i in (1..4)
+    assign image_id = 'brand_slide_' | append: i
+    if settings[image_id] != blank
+      assign slide_count = slide_count | plus: 1
+    endif
+  endfor
+
+  assign use_settings = false
+  if slide_count > 0
+    assign use_settings = true
+  endif
+
+  if use_settings == false and context == 'hero' and section != blank
+    assign slide_count = section.blocks.size
+  endif
+
+  assign interval = settings.brand_slide_interval | default: 5
+%}
+
+{% if slide_count > 0 %}
+  <div
+    class="brand-slides brand-slides--{{ context }}"
+    style="--brand-slide-interval: {{ interval }}s;"
+    data-brand-slides
+    data-brand-slides-context="{{ context }}"
+  >
+    <div class="brand-slides__list" aria-hidden="true">
+      {% if use_settings %}
+        {% assign rendered = 0 %}
+        {% for i in (1..4) %}
+          {% liquid
+            assign image_id = 'brand_slide_' | append: i
+            assign credit_id = 'brand_slide_' | append: i | append: '_photographer'
+            assign slide_image = settings[image_id]
+            assign slide_credit = settings[credit_id]
+          %}
+          {% if slide_image != blank %}
+            {% liquid
+              assign rendered = rendered | plus: 1
+              assign slide_loading = 'lazy'
+              assign slide_priority = 'low'
+              if rendered == 1 and context == 'hero'
+                assign slide_loading = 'eager'
+                assign slide_priority = 'high'
+              endif
+              assign slide_alt = slide_image.alt | default: shop.name
+              assign is_first = false
+              if rendered == 1
+                assign is_first = true
+              endif
+            %}
+            <div
+              class="brand-slides__slide{% if is_first %} is-active{% endif %}"
+              data-slide-index="{{ rendered | minus: 1 }}"
+              {% if slide_credit != blank %}
+                data-photographer="{{ slide_credit | escape }}"
+              {% endif %}
+            >
+              {{
+                slide_image
+                | image_url: width: 3840
+                | image_tag:
+                  class: 'brand-slides__image',
+                  widths: '832, 1200, 1600, 1920, 2560, 3840',
+                  sizes: '100vw',
+                  loading: slide_loading,
+                  fetchpriority: slide_priority,
+                  alt: slide_alt
+              }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% elsif context == 'hero' %}
+        {% for block in section.blocks %}
+          {% liquid
+            assign slide_loading = 'lazy'
+            assign slide_priority = 'low'
+            if forloop.first
+              assign slide_loading = 'eager'
+              assign slide_priority = 'high'
+            endif
+          %}
+          <div
+            class="brand-slides__slide{% if forloop.first %} is-active{% endif %}"
+            data-slide-index="{{ forloop.index0 }}"
+            {% if block.settings.photographer != blank %}
+              data-photographer="{{ block.settings.photographer | escape }}"
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.image != blank %}
+              {% assign slide_alt = block.settings.image.alt | default: shop.name %}
+              {{
+                block.settings.image
+                | image_url: width: 3840
+                | image_tag:
+                  class: 'brand-slides__image',
+                  widths: '832, 1200, 1600, 1920, 2560, 3840',
+                  sizes: '100vw',
+                  loading: slide_loading,
+                  fetchpriority: slide_priority,
+                  alt: slide_alt
+              }}
+            {% else %}
+              <div class="brand-slides__placeholder">
+                {{ 'hero-apparel-1' | placeholder_svg_tag: 'brand-slides__placeholder-svg' }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="brand-slides__overlay"></div>
+
+    {% if context == 'hero' %}
+      {% liquid
+        assign first_photographer = ''
+        if use_settings and settings.brand_slide_1_photographer != blank
+          assign first_photographer = settings.brand_slide_1_photographer
+        elsif use_settings == false and section != blank
+          for block in section.blocks
+            if forloop.first and block.settings.photographer != blank
+              assign first_photographer = block.settings.photographer
+            endif
+          endfor
+        endif
+      %}
+      <p
+        class="home-hero__photographer brand-slides__photographer{% if first_photographer == blank %} is-empty{% endif %}"
+        data-brand-slides-photographer
+      >
+        {{- first_photographer | escape -}}
+      </p>
+    {% endif %}
+
+    {% if slide_count > 1 %}
+      <div
+        class="brand-slides__dots{% if context == 'hero' %} home-hero__dots{% endif %}"
+        role="tablist"
+        aria-label="{{ 'accessibility.slideshow' | t }}"
+      >
+        {% for i in (1..slide_count) %}
+          <button
+            type="button"
+            class="brand-slides__dot{% if context == 'hero' %} home-hero__dot{% endif %}{% if forloop.first %} is-active{% endif %}"
+            role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            data-brand-slide-dot="{{ forloop.index0 }}"
+            aria-label="{{ 'accessibility.slide_status' | t: index: forloop.index, length: slide_count }}"
+          ></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .brand-slides {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brand-slides__list {
+    position: absolute;
+    inset: 0;
+  }
+
+  .brand-slides__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .brand-slides__slide.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .brand-slides__image,
+  .brand-slides__placeholder,
+  .brand-slides__placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .brand-slides__placeholder {
+    background: #1a1a1a;
+  }
+
+  .brand-slides__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .brand-slides--hero .brand-slides__overlay {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0.55) 100%);
+  }
+
+  .brand-slides--footer .brand-slides__overlay {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.45) 55%, rgba(31, 31, 31, 0.92) 100%);
+  }
+
+  .brand-slides__dots {
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    gap: 0.45rem;
+  }
+
+  .brand-slides__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+  }
+
+  .brand-slides__dot.is-active {
+    background: #fff;
+  }
+
+  .brand-slides--footer .brand-slides__dots {
+    right: var(--page-margin, 1.5rem);
+    bottom: 1.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-slides__slide {
+      transition: none;
+    }
+  }
+{% endstylesheet %}

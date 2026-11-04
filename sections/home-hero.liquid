@@ -1,89 +1,22 @@
 {%- comment -%}
-  Full-viewport hero with up to 4 autoplaying photo slides (WAZU-style).
+  Full-viewport hero. Slides come from Theme settings → Brand slides (shared with footer).
 {%- endcomment -%}
 
-<section
-  class="home-hero"
-  style="--home-hero-interval: {{ section.settings.autoplay_speed }}s;"
-  data-home-hero
->
-  <div class="home-hero__slides" aria-hidden="true">
-    {% for block in section.blocks %}
-      <div
-        class="home-hero__slide{% if forloop.first %} is-active{% endif %}"
-        data-slide-index="{{ forloop.index0 }}"
-        {% if block.settings.photographer != blank %}
-          data-photographer="{{ block.settings.photographer | escape }}"
-        {% endif %}
-        {{ block.shopify_attributes }}
-      >
-        {% liquid
-          assign slide_loading = 'lazy'
-          assign slide_priority = 'low'
-          if forloop.first
-            assign slide_loading = 'eager'
-            assign slide_priority = 'high'
-          endif
+{% liquid
+  assign brand_slide_count = 0
+  for i in (1..4)
+    assign image_id = 'brand_slide_' | append: i
+    if settings[image_id] != blank
+      assign brand_slide_count = brand_slide_count | plus: 1
+    endif
+  endfor
+  if brand_slide_count == 0
+    assign brand_slide_count = section.blocks.size
+  endif
+%}
 
-          assign fallback_asset = ''
-          assign fallback_alt = shop.name
-          case forloop.index0
-            when 0
-              assign fallback_asset = 'home-hero/hero-01-fuji.jpg'
-              assign fallback_alt = 'Mount Fuji at dawn, Japan'
-            when 1
-              assign fallback_asset = 'home-hero/hero-02-pagoda.jpg'
-              assign fallback_alt = 'Pagoda overlooking Kyoto, Japan'
-            when 2
-              assign fallback_asset = 'home-hero/hero-03-alley.jpg'
-              assign fallback_alt = 'Traditional Japanese street at night'
-            when 3
-              assign fallback_asset = 'home-hero/hero-04-torii.jpg'
-              assign fallback_alt = 'Fushimi Inari torii gates, Kyoto'
-          endcase
-        %}
-
-        {% if block.settings.image != blank %}
-          {% assign slide_alt = block.settings.image.alt | default: fallback_alt %}
-          {{
-            block.settings.image
-            | image_url: width: 3840
-            | image_tag:
-              class: 'home-hero__image',
-              widths: '832, 1200, 1600, 1920, 2560, 3840',
-              sizes: '100vw',
-              loading: slide_loading,
-              fetchpriority: slide_priority,
-              alt: slide_alt
-          }}
-        {% elsif fallback_asset != blank %}
-          <img
-            class="home-hero__image"
-            src="{{ fallback_asset | asset_url }}"
-            alt="{{ fallback_alt | escape }}"
-            loading="{{ slide_loading }}"
-            fetchpriority="{{ slide_priority }}"
-            width="2400"
-            height="1350"
-          >
-        {% else %}
-          <div class="home-hero__placeholder">
-            {{ 'hero-apparel-1' | placeholder_svg_tag: 'home-hero__placeholder-svg' }}
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
-
-    {% if section.blocks.size == 0 %}
-      <div class="home-hero__slide is-active">
-        <div class="home-hero__placeholder">
-          {{ 'hero-apparel-1' | placeholder_svg_tag: 'home-hero__placeholder-svg' }}
-        </div>
-      </div>
-    {% endif %}
-  </div>
-
-  <div class="home-hero__overlay"></div>
+<section class="home-hero" data-home-hero>
+  {% render 'brand-slides', context: 'hero', section: section %}
 
   {% render 'home-hero-nav', menu_handle: section.settings.menu %}
 
@@ -112,51 +45,21 @@
   {% endif %}
 
   {% liquid
-    # Locale is source of truth so Git deploys win over stale theme-editor JSON
     assign hero_heading = 'home.hero.heading' | t
     if hero_heading == blank or hero_heading == 'home.hero.heading'
       assign hero_heading = section.settings.heading
     endif
   %}
-  {% liquid
-    assign first_photographer = ''
-    for block in section.blocks
-      if forloop.first and block.settings.photographer != blank
-        assign first_photographer = block.settings.photographer
-      endif
-    endfor
-  %}
-  <p
-    class="home-hero__photographer{% if first_photographer == blank %} is-empty{% endif %}"
-    data-home-hero-photographer
-  >
-    {{- first_photographer | escape -}}
-  </p>
 
   {% if hero_heading != blank %}
     <div class="home-hero__content">
       <h2 class="home-hero__heading">{{ hero_heading | escape }}</h2>
     </div>
   {% endif %}
-
-  {% if section.blocks.size > 1 %}
-    <div class="home-hero__dots" role="tablist" aria-label="{{ 'accessibility.slideshow' | t }}">
-      {% for block in section.blocks %}
-        <button
-          type="button"
-          class="home-hero__dot{% if forloop.first %} is-active{% endif %}"
-          role="tab"
-          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-          data-hero-dot="{{ forloop.index0 }}"
-          aria-label="{{ 'accessibility.slide_status' | t: index: forloop.index, length: section.blocks.size }}"
-        ></button>
-      {% endfor %}
-    </div>
-  {% endif %}
 </section>
 
-{% if section.blocks.size > 1 %}
-  <script src="{{ 'home-hero.js' | asset_url }}" defer></script>
+{% if brand_slide_count > 1 %}
+  <script src="{{ 'brand-slides.js' | asset_url }}" defer></script>
 {% endif %}
 
 {% stylesheet %}
@@ -171,44 +74,15 @@
     background: #111;
   }
 
-  .home-hero__slides {
+  .home-hero .brand-slides {
     position: absolute;
     inset: 0;
-    overflow: hidden;
-  }
-
-  .home-hero__slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 1.2s ease;
-  }
-
-  .home-hero__slide.is-active {
-    opacity: 1;
     z-index: 1;
   }
 
-  .home-hero__image,
-  .home-hero__placeholder,
-  .home-hero__placeholder-svg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .home-hero__placeholder {
-    background: #1a1a1a;
-  }
-
-  .home-hero__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    background:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0.55) 100%);
-    pointer-events: none;
+  .home-hero .brand-slides__dots.home-hero__dots {
+    right: var(--site-nav-pad-inline, var(--page-margin, 1.5rem));
+    bottom: var(--home-hero-bottom-inset);
   }
 
   /* Hero nav positioning only — spacing/type shared via salon-header.css */
@@ -353,36 +227,6 @@
     letter-spacing: 0;
     text-align: center;
   }
-
-  .home-hero__dots {
-    position: absolute;
-    right: var(--site-nav-pad-inline, var(--page-margin, 1.5rem));
-    bottom: var(--home-hero-bottom-inset);
-    z-index: 3;
-    display: flex;
-    align-items: flex-end;
-    gap: 0.45rem;
-  }
-
-  .home-hero__dot {
-    width: 7px;
-    height: 7px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.35);
-    cursor: pointer;
-  }
-
-  .home-hero__dot.is-active {
-    background: #fff;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .home-hero__slide {
-      transition: none;
-    }
-  }
 {% endstylesheet %}
 
 {% schema %}
@@ -392,6 +236,10 @@
   "class": "section-home-hero",
   "max_blocks": 4,
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "Photos are managed in Theme settings → Brand slides (also used above the footer)."
+    },
     {
       "type": "checkbox",
       "id": "show_logo",
@@ -410,22 +258,12 @@
       "id": "menu",
       "label": "Hero menu",
       "default": "main-menu"
-    },
-    {
-      "type": "range",
-      "id": "autoplay_speed",
-      "label": "Slide duration",
-      "min": 3,
-      "max": 10,
-      "step": 1,
-      "unit": "s",
-      "default": 5
     }
   ],
   "blocks": [
     {
       "type": "slide",
-      "name": "Photo",
+      "name": "Photo (fallback)",
       "settings": [
         {
           "type": "image_picker",
@@ -435,21 +273,14 @@
         {
           "type": "text",
           "id": "photographer",
-          "label": "Photographer",
-          "info": "Shown small at the bottom left while this slide is active."
+          "label": "Photographer"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Home hero",
-      "blocks": [
-        { "type": "slide" },
-        { "type": "slide" },
-        { "type": "slide" },
-        { "type": "slide" }
-      ]
+      "name": "Home hero"
     }
   ]
 }

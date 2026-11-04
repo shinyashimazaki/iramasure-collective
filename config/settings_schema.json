@@ -8,6 +8,71 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "Brand slides",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shared photos for the homepage hero and footer. Edit once; both places update together."
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_1",
+        "label": "Slide 1"
+      },
+      {
+        "type": "text",
+        "id": "brand_slide_1_photographer",
+        "label": "Slide 1 photographer"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_2",
+        "label": "Slide 2"
+      },
+      {
+        "type": "text",
+        "id": "brand_slide_2_photographer",
+        "label": "Slide 2 photographer"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_3",
+        "label": "Slide 3"
+      },
+      {
+        "type": "text",
+        "id": "brand_slide_3_photographer",
+        "label": "Slide 3 photographer"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_4",
+        "label": "Slide 4"
+      },
+      {
+        "type": "text",
+        "id": "brand_slide_4_photographer",
+        "label": "Slide 4 photographer"
+      },
+      {
+        "type": "range",
+        "id": "brand_slide_interval",
+        "label": "Slide duration",
+        "min": 3,
+        "max": 10,
+        "step": 1,
+        "unit": "s",
+        "default": 5
+      },
+      {
+        "type": "checkbox",
+        "id": "brand_slides_in_footer",
+        "label": "Show slides above footer",
+        "default": true
+      }
+    ]
+  },
+  {
     "name": "t:names.logo_and_favicon",
     "settings": [
       {

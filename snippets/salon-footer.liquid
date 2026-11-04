@@ -6,9 +6,27 @@
   assign menu = linklists['main-menu']
   assign contact_url = pages['contact'].url | default: '/pages/contact'
   assign instagram_url = 'https://www.instagram.com/iramasure_collective/'
+  assign footer_slide_count = 0
+  if settings.brand_slides_in_footer
+    for i in (1..4)
+      assign image_id = 'brand_slide_' | append: i
+      if settings[image_id] != blank
+        assign footer_slide_count = footer_slide_count | plus: 1
+      endif
+    endfor
+  endif
 %}
 
 <div class="salon-footer">
+  {% if footer_slide_count > 0 %}
+    <div class="salon-footer__slides">
+      {% render 'brand-slides', context: 'footer' %}
+    </div>
+    {% if footer_slide_count > 1 %}
+      <script src="{{ 'brand-slides.js' | asset_url }}" defer></script>
+    {% endif %}
+  {% endif %}
+
   <div class="salon-footer__inner">
     <div class="salon-footer__nav">
       <div class="salon-footer__nav-col">
