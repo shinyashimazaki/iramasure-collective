@@ -87,7 +87,8 @@
   }
 
   .home-feature__figure {
-    width: min(90rem, calc(100% - (var(--page-margin, 1.5rem) * 2)));
+    /* Match journey / WAZU content photos: ~75vw with roomy side margins */
+    width: min(67.5rem, calc(100% - 2 * max(var(--page-margin, 1.5rem), 12.5vw)));
     max-width: 100%;
     margin: clamp(3rem, 6vw, 4.5rem) auto;
   }
