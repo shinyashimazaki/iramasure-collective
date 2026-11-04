@@ -107,10 +107,14 @@
 
       (function setHeaderMenuStyle() {
         const headerComponent = document.querySelector('#header-component');
-        if (headerComponent) {
-          // WAZU-like: always use hamburger drawer instead of desktop mega menu
-          headerComponent.dataset.menuStyle = 'drawer';
-        }
+        if (!headerComponent) return;
+
+        // Desktop width: horizontal text menu (Home / Category / Contact …).
+        // Narrow screens / overflow: drawer fallback only.
+        const overflowList = headerComponent.querySelector('overflow-list');
+        const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
+        const isNarrow = window.matchMedia('(max-width: 749px)').matches;
+        headerComponent.dataset.menuStyle = isNarrow || hasReachedMinimum ? 'drawer' : 'menu';
       })();
     </script>
 

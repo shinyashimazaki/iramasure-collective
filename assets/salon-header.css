@@ -1,7 +1,6 @@
-/* Match https://iramasure.com/about/ header rhythm:
-   - Top: larger logo + generous padding
-   - Scrolled/compact: smaller logo + tighter padding
-   - Animated width/padding like the salon site
+/* Header: WAZU-like horizontal nav + salon logo animation
+   Desktop: Home / Category / Contact + language + account + cart
+   Mobile: drawer only when needed (no forced hamburger on desktop)
 */
 
 #header-component {
@@ -22,9 +21,8 @@
 }
 
 /*
-  Horizon drawer mode forces `padding-block: 0` on .header__columns
-  (always on, because we force data-menu-style=drawer). Beat that
-  specificity and also feed .spacing-style CSS variables.
+  Horizon drawer mode forces `padding-block: 0` on .header__columns.
+  Beat that specificity and also feed .spacing-style CSS variables.
 */
 #header-component .header__columns,
 #header-component[data-menu-style='drawer'] .header__columns,
@@ -40,42 +38,57 @@
   justify-content: center;
 }
 
-/*
-  Drawer mode uses a 5-column bookend grid + display:contents, which can
-  optically shift the logo. Pin it to the true center of the header row.
-*/
-#header-component[data-menu-style='drawer'] .header__row--top .header__columns {
+/* True-center logo when shown (past hero / inner pages) */
+#header-component .header__row--top .header__columns {
   position: relative;
 }
 
-#header-component[data-menu-style='drawer'] .header__row--top .header-logo {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 3;
-  width: fit-content;
-  height: fit-content;
-  margin: auto;
-  grid-area: unset !important;
-}
+@media screen and (min-width: 750px) {
+  #header-component .header__row--top .header__column--center:has(.header-logo) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 3;
+  }
 
-/* Keep Menu + actions on the right so the logo stays visually balanced */
-#header-component[data-menu-style='drawer'] .header__drawer {
-  grid-area: rightB;
-  justify-self: end;
-}
+  #header-component .header__row--top .header__column--center .header-logo {
+    pointer-events: auto;
+  }
 
-#header-component[data-menu-style='drawer'] header-actions {
-  grid-area: rightA;
-  justify-self: end;
-}
+  #header-component .header__column--right {
+    gap: clamp(18px, 2vw, 28px);
+    align-items: center;
+    z-index: 2;
+  }
 
-#header-component[data-menu-style='drawer'] .dropdown-localization {
-  display: flex;
-  grid-area: leftA;
-  justify-self: start;
+  /* Horizontal text menu */
+  #header-component[data-menu-style='menu'] .header-menu {
+    display: flex;
+  }
+
+  #header-component[data-menu-style='menu'] .menu-list__link,
+  #header-component[data-menu-style='menu'] .dropdown-localization__button {
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  #header-component[data-menu-style='menu'] .dropdown-localization__button {
+    min-height: 44px;
+    padding-inline: 0;
+    gap: 0.35rem;
+  }
+
+  /* Prefer text nav over hamburger on desktop */
+  #header-component[data-menu-style='menu'] .header__drawer {
+    display: none !important;
+  }
 }
 
 /* Logo size + salon-like width animation */
@@ -90,28 +103,12 @@
     filter 0.45s ease;
 }
 
-/* Right-side cluster: language + cart + Menu */
-#header-component .header__column--right {
-  gap: clamp(12px, 1.5vw, 20px);
-  align-items: center;
-}
-
-#header-component .dropdown-localization__button {
-  font-size: 0.875rem;
-  letter-spacing: 0.04em;
-  gap: 0.35rem;
-  min-height: 44px;
-  padding-inline: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-
 #header-component .dropdown-localization__button .icon-caret {
-  display: none;
+  width: 0.65em;
+  height: 0.65em;
 }
 
-/* Menu toggle with text label (salon style) */
+/* Drawer (mobile fallback) still uses icon-only toggle */
 #header-component .header__icon--menu {
   display: inline-flex;
   align-items: center;
@@ -164,7 +161,6 @@ body.template-index.is-over-hero .header-logo[data-hidden-on-home-page] {
   display: none !important;
 }
 
-/* Stay transparent over the hero even if Horizon marks sticky early */
 body.template-index.is-over-hero #header-component[transparent='not-sticky'][data-sticky-state='active'] {
   --header-logo-display: none;
   --header-logo-inverse-display: block;
@@ -188,7 +184,6 @@ body.template-index.is-over-hero
   --color-primary-button-text: inherit;
 }
 
-/* Past hero: show header logo + solid underlay */
 body.template-index.is-past-hero .header-logo[data-hidden-on-home-page] {
   display: flex !important;
 }
@@ -235,7 +230,7 @@ body.template-index.is-past-hero
     --salon-header-pad-bottom: 20px;
   }
 
-  /* Match salon mobile: language + Menu text hidden; icon toggle only */
+  /* Mobile drawer: language + Menu text hidden; icon toggle only */
   #header-component[data-menu-style='drawer'] .dropdown-localization {
     display: none !important;
   }
