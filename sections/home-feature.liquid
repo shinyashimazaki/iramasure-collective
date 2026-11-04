@@ -1,59 +1,63 @@
 <section class="home-feature color-{{ section.settings.color_scheme }}">
-  <div class="home-feature__inner">
-    {% if section.settings.heading != blank %}
-      <h3 class="home-feature__heading">{{ section.settings.heading | escape }}</h3>
-    {% endif %}
+  {% if section.settings.heading != blank or section.settings.body != blank %}
+    <div class="home-feature__copy">
+      {% if section.settings.heading != blank %}
+        <h3 class="home-feature__heading">{{ section.settings.heading | escape }}</h3>
+      {% endif %}
 
-    {% if section.settings.body != blank %}
-      <div class="home-feature__body rte">
-        {{ section.settings.body }}
-      </div>
-    {% endif %}
+      {% if section.settings.body != blank %}
+        <div class="home-feature__body rte">
+          {{ section.settings.body }}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
 
-    {% if section.settings.image != blank %}
-      {% assign feature_alt = section.settings.image.alt | default: section.settings.heading %}
-      <figure class="home-feature__figure">
-        {{
-          section.settings.image
-          | image_url: width: 2400
-          | image_tag:
-            class: 'home-feature__image',
-            widths: '800, 1200, 1600, 2400',
-            sizes: '(min-width: 900px) 70vw, 100vw',
-            loading: 'lazy',
-            alt: feature_alt
-        }}
-        {% if section.settings.caption != blank %}
-          <figcaption class="home-feature__caption">{{ section.settings.caption | escape }}</figcaption>
-        {% endif %}
-      </figure>
-    {% endif %}
+  {% if section.settings.image != blank %}
+    {% assign feature_alt = section.settings.image.alt | default: section.settings.heading %}
+    <figure class="home-feature__figure">
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'home-feature__image',
+          widths: '800, 1200, 1600, 2400',
+          sizes: '(min-width: 1100px) min(90rem, calc(100vw - 2 * var(--page-margin, 40px))), 100vw',
+          loading: 'lazy',
+          alt: feature_alt
+      }}
+      {% if section.settings.caption != blank %}
+        <figcaption class="home-feature__caption">{{ section.settings.caption | escape }}</figcaption>
+      {% endif %}
+    </figure>
+  {% endif %}
 
-    {% if section.settings.secondary_heading != blank or section.settings.secondary_body != blank %}
-      <div class="home-feature__secondary">
-        {% if section.settings.secondary_heading != blank %}
-          <h3 class="home-feature__heading">{{ section.settings.secondary_heading | escape }}</h3>
-        {% endif %}
-        {% if section.settings.secondary_body != blank %}
-          <div class="home-feature__body rte">
-            {{ section.settings.secondary_body }}
-          </div>
-        {% endif %}
-      </div>
-    {% endif %}
-  </div>
+  {% if section.settings.secondary_heading != blank or section.settings.secondary_body != blank %}
+    <div class="home-feature__copy home-feature__secondary">
+      {% if section.settings.secondary_heading != blank %}
+        <h3 class="home-feature__heading">{{ section.settings.secondary_heading | escape }}</h3>
+      {% endif %}
+      {% if section.settings.secondary_body != blank %}
+        <div class="home-feature__body rte">
+          {{ section.settings.secondary_body }}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
 </section>
 
 {% stylesheet %}
   .home-feature {
-    padding: clamp(4rem, 9vw, 7rem) 1.5rem;
+    padding-block: clamp(4rem, 9vw, 7rem);
     background: var(--color-background);
     color: var(--color-foreground);
   }
 
-  .home-feature__inner {
+  /* Text stays narrow; image below breaks wider like WAZU */
+  .home-feature__copy {
     max-width: 40rem;
-    margin: 0 auto;
+    margin-inline: auto;
+    padding-inline: var(--page-margin, 1.5rem);
     text-align: left;
   }
 
@@ -83,7 +87,9 @@
   }
 
   .home-feature__figure {
-    margin: 3.5rem 0;
+    width: min(90rem, calc(100% - (var(--page-margin, 1.5rem) * 2)));
+    max-width: 100%;
+    margin: clamp(3rem, 6vw, 4.5rem) auto;
   }
 
   .home-feature__image {
@@ -94,13 +100,14 @@
 
   .home-feature__caption {
     margin-top: 0.85rem;
+    padding-inline: 0.15rem;
     font-size: 0.8rem;
     letter-spacing: 0.06em;
     opacity: 0.7;
   }
 
   .home-feature__secondary {
-    margin-top: 3rem;
+    margin-top: 0;
   }
 {% endstylesheet %}
 
