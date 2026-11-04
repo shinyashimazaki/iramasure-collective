@@ -112,12 +112,6 @@
     </div>
   {% endif %}
 
-  {% if section.settings.show_scroll_hint %}
-    <div class="home-hero__scroll" aria-hidden="true">
-      <span class="home-hero__scroll-line"></span>
-    </div>
-  {% endif %}
-
   {% if section.blocks.size > 1 %}
     <div class="home-hero__dots" role="tablist" aria-label="{{ 'accessibility.slideshow' | t }}">
       {% for block in section.blocks %}
@@ -214,8 +208,7 @@
     align-items: center;
     justify-content: flex-end;
     text-align: center;
-    /* Sit just above the animated scroll bar (bottom: 1.75rem + 56px) */
-    padding: 0 1.5rem calc(1.75rem + 56px + 1.5rem);
+    padding: 0 1.5rem 2.5rem;
   }
 
   .home-hero__heading {
@@ -226,40 +219,6 @@
     font-weight: 400;
     line-height: 1.55;
     letter-spacing: 0;
-  }
-
-  .home-hero__scroll {
-    position: absolute;
-    left: 50%;
-    bottom: 1.75rem;
-    z-index: 3;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 56px;
-    overflow: hidden;
-  }
-
-  .home-hero__scroll-line {
-    display: block;
-    width: 1px;
-    height: 100%;
-    background: currentColor;
-    transform-origin: top;
-    animation: home-hero-scroll 1.8s ease-in-out infinite;
-  }
-
-  @keyframes home-hero-scroll {
-    0% {
-      transform: scaleY(0);
-      opacity: 0;
-    }
-    30% {
-      opacity: 1;
-    }
-    100% {
-      transform: scaleY(1);
-      opacity: 0;
-    }
   }
 
   .home-hero__dots {
@@ -289,12 +248,6 @@
     .home-hero__slide {
       transition: none;
     }
-
-    .home-hero__scroll-line {
-      animation: none;
-      opacity: 0.6;
-      transform: scaleY(1);
-    }
   }
 {% endstylesheet %}
 
@@ -316,12 +269,6 @@
       "id": "heading",
       "label": "Heading",
       "default": "日本の良品との、一期一会。"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_scroll_hint",
-      "label": "Show scroll hint",
-      "default": true
     },
     {
       "type": "range",
