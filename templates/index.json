@@ -57,7 +57,6 @@
           "type": "item",
           "settings": {
             "product": "matcha",
-            "coordinates": "34˚53'N, 135˚48'E",
             "title": "matcha",
             "place": "Uji",
             "link": ""
@@ -67,7 +66,6 @@
           "type": "item",
           "settings": {
             "product": "houjicha",
-            "coordinates": "34˚53'N, 135˚48'E",
             "title": "houjicha",
             "place": "Uji",
             "link": ""
@@ -77,7 +75,6 @@
           "type": "item",
           "settings": {
             "product": "iramasure-pouch-big-コピー",
-            "coordinates": "35˚00'N, 135˚46'E",
             "title": "obi clutch",
             "place": "Kyoto",
             "link": ""
@@ -91,7 +88,6 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": "Feel the culture in your hands",
         "cta_label": "Discover"
       }
     },
