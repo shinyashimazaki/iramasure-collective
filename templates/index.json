@@ -38,7 +38,7 @@
       ],
       "settings": {
         "show_logo": true,
-        "heading": "Begin the journey",
+        "heading": "Discover",
         "menu": "main-menu",
         "autoplay_speed": 3
       }
@@ -98,6 +98,7 @@
         "color_scheme": "scheme-1",
         "heading": "Keep the character of the land.",
         "body": "<p>We value the expression of the material itself—and the breath of the maker—more than loud finishing or fashion.</p><p>The aroma of tea leaves, the glaze on a bowl, the weave of an obi: the more we leave untouched, the more a character that can only be born in that place comes forward.</p><p>No two are the same.</p><p>That is why every encounter is once in a lifetime. Do not miss the feeling in your hands.</p>",
+        "image": "shopify://shop_images/photo-1785062897723-b72450b2f49e.avif",
         "caption": "",
         "secondary_heading": "Discover a Japan you have not yet known.",
         "secondary_body": "<p>In Japan, some workshops guard craft across generations; others reweave tradition with a new sensibility.</p><p>Away from the loudest names, makers keep to their own path—quietly, seriously, and with a smile.</p><p>IRAMASURE COLLECTIVE keeps traveling to find those goods and deliver them with their stories.</p>"
