@@ -108,9 +108,16 @@
     </div>
   {% endif %}
 
-  {% if section.settings.heading != blank %}
+  {% liquid
+    # Locale is source of truth so Git deploys win over stale theme-editor JSON
+    assign hero_heading = 'home.hero.heading' | t
+    if hero_heading == blank or hero_heading == 'home.hero.heading'
+      assign hero_heading = section.settings.heading
+    endif
+  %}
+  {% if hero_heading != blank %}
     <div class="home-hero__content">
-      <h2 class="home-hero__heading">{{ section.settings.heading | escape }}</h2>
+      <h2 class="home-hero__heading">{{ hero_heading | escape }}</h2>
     </div>
   {% endif %}
 
@@ -340,8 +347,9 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
-      "default": "日本の良品との、一期一会。"
+      "label": "Heading fallback",
+      "default": "Begin the journey",
+      "info": "Used only if the locale string home.hero.heading is missing."
     },
     {
       "type": "link_list",
