@@ -4,62 +4,12 @@
 
 {% liquid
   assign menu = linklists['main-menu']
-  assign shop_url = pages['shop'].url | default: routes.all_products_collection_url
   assign contact_url = pages['contact'].url | default: '/pages/contact'
   assign instagram_url = 'https://www.instagram.com/iramasure_collective/'
 %}
 
 <div class="salon-footer">
   <div class="salon-footer__inner">
-    <div class="salon-footer__cards">
-      <div class="salon-footer__card">
-        <a class="salon-footer__card-link" href="{{ shop_url }}">
-          <span class="salon-footer__card-thumb">
-            <span class="salon-footer__card-thumb-fallback" aria-hidden="true"></span>
-          </span>
-          <span class="salon-footer__card-label">
-            {{ 'home.footer.card_shop' | t }}
-          </span>
-        </a>
-        <div class="salon-footer__card-detail">
-          <p>{{ 'home.footer.card_shop_detail' | t }}</p>
-        </div>
-      </div>
-
-      <div class="salon-footer__card">
-        <a class="salon-footer__card-link" href="{{ contact_url }}">
-          <span class="salon-footer__card-thumb">
-            <span class="salon-footer__card-thumb-fallback" aria-hidden="true"></span>
-          </span>
-          <span class="salon-footer__card-label">
-            {{ 'home.footer.card_contact' | t }}
-          </span>
-        </a>
-        <div class="salon-footer__card-detail">
-          <p>{{ 'home.footer.card_contact_detail' | t }}</p>
-        </div>
-      </div>
-
-      <div class="salon-footer__card">
-        <a
-          class="salon-footer__card-link"
-          href="{{ instagram_url }}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span class="salon-footer__card-thumb">
-            <span class="salon-footer__card-thumb-fallback" aria-hidden="true"></span>
-          </span>
-          <span class="salon-footer__card-label">
-            Instagram
-          </span>
-        </a>
-        <div class="salon-footer__card-detail">
-          <p>{{ 'home.footer.card_instagram_detail' | t }}</p>
-        </div>
-      </div>
-    </div>
-
     <div class="salon-footer__nav">
       <div class="salon-footer__nav-col">
         <p class="salon-footer__nav-title">{{ 'home.footer.nav_explore' | t }}</p>
