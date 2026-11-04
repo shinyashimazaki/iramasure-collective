@@ -1,0 +1,166 @@
+{% doc %}
+  Salon-style footer for IRAMASURE Collective (mirrors iramasure.com layout).
+{% enddoc %}
+
+{% liquid
+  assign menu = linklists['main-menu']
+  assign shop_url = pages['shop'].url | default: routes.all_products_collection_url
+  assign contact_url = pages['contact'].url | default: '/pages/contact'
+  assign instagram_url = 'https://www.instagram.com/iramasure_collective/'
+%}
+
+<div class="salon-footer">
+  <div class="salon-footer__inner">
+    <div class="salon-footer__cards">
+      <div class="salon-footer__card">
+        <a class="salon-footer__card-link" href="{{ shop_url }}">
+          <span class="salon-footer__card-thumb">
+            <span class="salon-footer__card-thumb-fallback" aria-hidden="true"></span>
+          </span>
+          <span class="salon-footer__card-label">
+            {{ 'home.footer.card_shop' | t }}
+            <span class="salon-footer__arrow" aria-hidden="true">↗</span>
+          </span>
+        </a>
+        <div class="salon-footer__card-detail">
+          <p>{{ 'home.footer.card_shop_detail' | t }}</p>
+        </div>
+      </div>
+
+      <div class="salon-footer__card">
+        <a class="salon-footer__card-link" href="{{ contact_url }}">
+          <span class="salon-footer__card-thumb">
+            <span class="salon-footer__card-thumb-fallback" aria-hidden="true"></span>
+          </span>
+          <span class="salon-footer__card-label">
+            {{ 'home.footer.card_contact' | t }}
+            <span class="salon-footer__arrow" aria-hidden="true">↗</span>
+          </span>
+        </a>
+        <div class="salon-footer__card-detail">
+          <p>{{ 'home.footer.card_contact_detail' | t }}</p>
+        </div>
+      </div>
+
+      <div class="salon-footer__card">
+        <a
+          class="salon-footer__card-link"
+          href="{{ instagram_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="salon-footer__card-thumb">
+            <span class="salon-footer__card-thumb-fallback" aria-hidden="true"></span>
+          </span>
+          <span class="salon-footer__card-label">
+            Instagram
+            <span class="salon-footer__arrow" aria-hidden="true">↗</span>
+          </span>
+        </a>
+        <div class="salon-footer__card-detail">
+          <p>{{ 'home.footer.card_instagram_detail' | t }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="salon-footer__nav">
+      <div class="salon-footer__nav-col">
+        <p class="salon-footer__nav-title">{{ 'home.footer.nav_explore' | t }}</p>
+        <ul class="salon-footer__nav-list">
+          {% if menu != blank %}
+            {% for link in menu.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title | escape }}</a>
+              </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="salon-footer__nav-col">
+        <p class="salon-footer__nav-title">{{ 'home.footer.nav_info' | t }}</p>
+        <ul class="salon-footer__nav-list">
+          {% for policy in shop.policies %}
+            {% if policy != blank %}
+              <li>
+                <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="salon-footer__nav-col">
+        <p class="salon-footer__nav-title">{{ 'home.footer.nav_connect' | t }}</p>
+        <ul class="salon-footer__nav-list">
+          <li>
+            <a
+              class="salon-footer__external"
+              href="{{ instagram_url }}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+              <span class="salon-footer__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ contact_url }}">{{ 'home.footer.card_contact' | t }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="salon-footer__meta">
+      <div class="salon-footer__logo">
+        {% if settings.logo != blank %}
+          <img
+            src="{{ settings.logo | image_url: width: 1600 }}"
+            alt="{{ shop.name | escape }}"
+            width="{{ settings.logo.width }}"
+            height="{{ settings.logo.height }}"
+            loading="lazy"
+          >
+        {% else %}
+          <img
+            src="{{ 'logo.svg' | asset_url }}"
+            alt="{{ shop.name | escape }}"
+            width="293"
+            height="67"
+            loading="lazy"
+          >
+        {% endif %}
+      </div>
+
+      <div class="salon-footer__meta-row">
+        <p class="salon-footer__copyright">
+          &copy; {{ 'now' | date: '%Y' }}
+          {{ shop.name | escape }}.
+          {{ 'home.footer.rights' | t }}
+        </p>
+
+        <nav class="salon-footer__legal" aria-label="{{ 'home.footer.legal' | t }}">
+          {% for policy in shop.policies %}
+            {% if policy != blank %}
+              <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+            {% endif %}
+          {% endfor %}
+        </nav>
+
+        <button type="button" class="salon-footer__top" data-salon-footer-top>
+          {{ 'home.footer.back_to_top' | t }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const btn = document.querySelector('[data-salon-footer-top]');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+</script>

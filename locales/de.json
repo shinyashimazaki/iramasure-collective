@@ -370,6 +370,19 @@
     "cta": {
       "body_html": "<p>Wir halten nicht einfach immer dasselbe Regal fest.<br>Mit jeder Jahreszeit und jeder Begegnung suchen wir neue Macher und die nächsten feinen Güter.</p><p>Wenn Neugier aufkommt, beginne die Reise.</p>",
       "button_label": "Zum Shop"
+    },
+    "footer": {
+      "card_shop": "Zum Shop",
+      "card_shop_detail": "Japanische Güter für den Alltag in Berlin.",
+      "card_contact": "Kontakt",
+      "card_contact_detail": "Fragen zu Produkten, Geschenken oder Versand.",
+      "card_instagram_detail": "Geschichten von Machern und Neuheiten.",
+      "nav_explore": "Entdecken",
+      "nav_info": "Info",
+      "nav_connect": "Connect",
+      "rights": "Alle Rechte vorbehalten.",
+      "legal": "Rechtliches",
+      "back_to_top": "Nach oben"
     }
   }
 }

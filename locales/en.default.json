@@ -371,6 +371,19 @@
     "cta": {
       "body_html": "<p>We do not simply keep the same shelf forever.<br>With each season and each encounter, we look for new makers and the next fine goods.</p><p>When curiosity stirs, begin the journey.</p>",
       "button_label": "Visit the Shop"
+    },
+    "footer": {
+      "card_shop": "Visit the Shop",
+      "card_shop_detail": "Japanese goods for everyday life in Berlin.",
+      "card_contact": "Contact",
+      "card_contact_detail": "Questions about products, gifts, or shipping.",
+      "card_instagram_detail": "Stories from makers and new arrivals.",
+      "nav_explore": "Explore",
+      "nav_info": "Info",
+      "nav_connect": "Connect",
+      "rights": "All rights reserved.",
+      "legal": "Legal",
+      "back_to_top": "Back to top"
     }
   }
 }

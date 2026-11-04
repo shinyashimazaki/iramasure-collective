@@ -130,7 +130,10 @@
     </main>
 
     <footer>
-      {% sections 'footer-group' %}
+      {% comment %}
+        Use snippet (not footer-group JSON) so Git deploys always win over theme-editor group state.
+      {% endcomment %}
+      {% render 'salon-footer' %}
     </footer>
 
     {% render 'search-modal' %}
