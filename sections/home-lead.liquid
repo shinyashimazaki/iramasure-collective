@@ -1,7 +1,17 @@
 <section class="home-lead color-{{ section.settings.color_scheme }}">
   <div class="home-lead__inner">
     {% if section.settings.heading != blank %}
-      <h3 class="home-lead__heading">{{ section.settings.heading | escape }}</h3>
+      <h3 class="home-lead__heading">
+        {%- assign heading_lines = section.settings.heading | split: '|' -%}
+        {%- if heading_lines.size > 1 -%}
+          {%- for line in heading_lines -%}
+            {{- line | strip | escape -}}
+            {%- unless forloop.last -%}<br class="home-lead__br">{%- endunless -%}
+          {%- endfor -%}
+        {%- else -%}
+          {{- section.settings.heading | escape -}}
+        {%- endif -%}
+      </h3>
     {% endif %}
 
     {% if section.settings.body != blank %}
@@ -33,6 +43,16 @@
     line-height: 1.6;
     letter-spacing: 0.04em;
     text-align: left;
+  }
+
+  .home-lead__br {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .home-lead__br {
+      display: block;
+    }
   }
 
   .home-lead__body {
@@ -67,7 +87,8 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "IRAMASURE。それは、日本の良品との出会い。"
+      "default": "Japanese sense of life,|right here in Berlin",
+      "info": "Use | for a mobile-only line break."
     },
     {
       "type": "richtext",
