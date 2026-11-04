@@ -6,7 +6,9 @@
         {%- if heading_lines.size > 1 -%}
           {%- for line in heading_lines -%}
             {{- line | strip | escape -}}
-            {%- unless forloop.last -%}<br class="home-lead__br">{%- endunless -%}
+            {%- unless forloop.last -%}
+              {{- ' ' -}}<br class="home-lead__br">
+            {%- endunless -%}
           {%- endfor -%}
         {%- else -%}
           {{- section.settings.heading | escape -}}
