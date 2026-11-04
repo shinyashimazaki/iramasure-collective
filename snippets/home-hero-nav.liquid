@@ -1,0 +1,146 @@
+{% doc %}
+  Dedicated navigation for the home hero. Separate from the sticky site header.
+{% enddoc %}
+
+{% liquid
+  assign menu = linklists[menu_handle]
+  if menu == blank
+    assign menu = linklists['main-menu']
+  endif
+%}
+
+<nav
+  class="home-hero__nav"
+  data-home-hero-nav
+  aria-label="{{ 'accessibility.header_navigation_label' | t }}"
+>
+  <div class="home-hero__nav-inner">
+    <ul class="home-hero__nav-list" role="list">
+      {% for link in menu.links %}
+        {% liquid
+          assign show_mega = false
+          assign mega_collection = blank
+
+          if link.type == 'collection_link' and link.object != blank
+            assign mega_collection = link.object
+            assign show_mega = true
+          elsif link.links != blank
+            assign show_mega = true
+          endif
+        %}
+
+        <li class="home-hero__nav-item{% if show_mega %} home-hero__nav-item--parent{% endif %}">
+          <a
+            class="home-hero__nav-link{% if link.active %} is-active{% endif %}"
+            href="{{ link.url }}"
+            {% if show_mega %}
+              aria-haspopup="true"
+            {% endif %}
+          >
+            {{ link.title | escape }}
+          </a>
+
+          {% if show_mega %}
+            <div class="home-hero__mega">
+              {% if mega_collection != blank %}
+                {% for product in mega_collection.products limit: 6 %}
+                  <a class="home-hero__mega-card" href="{{ product.url }}">
+                    {% if product.featured_image != blank %}
+                      {{
+                        product.featured_image
+                        | image_url: width: 480
+                        | image_tag:
+                          class: 'home-hero__mega-image',
+                          widths: '240, 360, 480',
+                          sizes: '140px',
+                          loading: 'lazy',
+                          alt: product.title
+                      }}
+                    {% endif %}
+                    <span class="home-hero__mega-title">{{ product.title | escape }}</span>
+                  </a>
+                {% endfor %}
+              {% else %}
+                {% for child in link.links %}
+                  {% if child.type == 'collection_link' and child.object != blank %}
+                    {% for product in child.object.products limit: 3 %}
+                      <a class="home-hero__mega-card" href="{{ product.url }}">
+                        {% if product.featured_image != blank %}
+                          {{
+                            product.featured_image
+                            | image_url: width: 480
+                            | image_tag:
+                              class: 'home-hero__mega-image',
+                              widths: '240, 360, 480',
+                              sizes: '140px',
+                              loading: 'lazy',
+                              alt: product.title
+                          }}
+                        {% endif %}
+                        <span class="home-hero__mega-title">{{ product.title | escape }}</span>
+                      </a>
+                    {% endfor %}
+                  {% else %}
+                    <a class="home-hero__mega-link" href="{{ child.url }}">
+                      {{ child.title | escape }}
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <div class="home-hero__nav-actions">
+      {% if localization.available_languages.size > 1 %}
+        {% form 'localization', id: 'home-hero-localization' %}
+          <div class="home-hero__lang">
+            {% for language in localization.available_languages %}
+              <button
+                type="submit"
+                name="locale_code"
+                value="{{ language.iso_code }}"
+                class="home-hero__lang-btn{% if language.iso_code == localization.language.iso_code %} is-active{% endif %}"
+                {% if language.iso_code == localization.language.iso_code %}
+                  aria-current="true"
+                {% endif %}
+              >
+                {{ language.iso_code | upcase }}
+              </button>
+              {% unless forloop.last %}
+                <span class="home-hero__lang-sep" aria-hidden="true">/</span>
+              {% endunless %}
+            {% endfor %}
+          </div>
+        {% endform %}
+      {% endif %}
+
+      {% if shop.customer_accounts_enabled %}
+        <a
+          class="home-hero__icon-link"
+          href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+          aria-label="{{ 'content.account_title' | t }}"
+        >
+          <span class="svg-wrapper">
+            {{ 'icon-account.svg' | inline_asset_content }}
+          </span>
+        </a>
+      {% endif %}
+
+      <a
+        class="home-hero__icon-link"
+        href="{{ routes.cart_url }}"
+        aria-label="{{ 'accessibility.cart' | t | default: 'Cart' }}"
+      >
+        <span class="svg-wrapper">
+          {{ 'icon-cart.svg' | inline_asset_content }}
+        </span>
+        {% if cart.item_count > 0 %}
+          <span class="home-hero__cart-count">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </div>
+</nav>

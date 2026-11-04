@@ -155,74 +155,26 @@
   width: clamp(160px, 18vw, 280px) !important;
 }
 
-/* ── Home: hero-fixed menu vs scrolling header ───────────────
-   Over hero: menu is viewport-fixed (not sticky scroll header).
-   Past hero: solid sticky header with logo takes over.
+/* ── Home: two separate headers ──────────────────────────────
+   1) .home-hero__nav — lives in the hero markup
+   2) #header-group — sticky scrolling header, only after hero
 */
 
-body.template-index.is-over-hero .header-logo[data-hidden-on-home-page] {
-  display: none !important;
+body.template-index:not(.is-past-hero) #header-group {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
 }
 
-/* Detach from sticky scroll behavior while over the hero */
-body.template-index.is-over-hero .header-section {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 40;
-  transform: none !important;
+body.template-index.is-past-hero #header-group {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
 }
 
-body.template-index.is-over-hero #header-component {
-  position: relative !important;
-  opacity: 1 !important;
-  transform: none !important;
-  --header-logo-display: none;
-  --header-logo-inverse-display: block;
-  --closed-underlay-height: 0px;
-  --color-foreground: unset;
-  --color-foreground-rgb: unset;
-  --color-background: unset;
-  --color-background-rgb: unset;
-  --color-border: unset;
-  --color-border-rgb: unset;
-}
-
-body.template-index.is-over-hero #header-component[transparent='not-sticky'][data-sticky-state='active'],
-body.template-index.is-over-hero #header-component[transparent] {
-  --header-logo-display: none;
-  --header-logo-inverse-display: block;
-  --closed-underlay-height: 0px;
-  --color-foreground: unset;
-  --color-foreground-rgb: unset;
-  --color-background: unset;
-  --color-background-rgb: unset;
-  --color-border: unset;
-  --color-border-rgb: unset;
-}
-
-body.template-index.is-over-hero #header-component .header__row {
-  --color-foreground: inherit;
-  --color-foreground-rgb: inherit;
-  --color-border: inherit;
-  --color-border-rgb: inherit;
-  --color-primary-button-background: inherit;
-  --color-primary-button-text: inherit;
-  --color-background: transparent;
-}
-
-body.template-index.is-over-hero #header-component .header__underlay-closed {
-  opacity: 0 !important;
-  height: 0 !important;
-}
-
-/* Past hero: scrolling solid header (separate from hero-fixed menu) */
-body.template-index.is-past-hero .header-section {
-  position: sticky !important;
-  top: -1px;
-  z-index: var(--layer-sticky, 20);
+body.template-index.is-past-hero .home-hero__nav {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 body.template-index.is-past-hero .header-logo[data-hidden-on-home-page] {

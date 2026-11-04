@@ -39,6 +39,7 @@
       "settings": {
         "show_logo": true,
         "heading": "Japanese sense of life, right here in Berlin",
+        "menu": "main-menu",
         "autoplay_speed": 3
       }
     },
