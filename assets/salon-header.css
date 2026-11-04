@@ -21,9 +21,18 @@
   min-height: 0;
 }
 
-#header-component .header__columns {
+/*
+  Horizon drawer mode forces `padding-block: 0` on .header__columns
+  (always on, because we force data-menu-style=drawer). Beat that
+  specificity and also feed .spacing-style CSS variables.
+*/
+#header-component .header__columns,
+#header-component[data-menu-style='drawer'] .header__columns,
+#header-component[data-menu-style='drawer'] .header__row--top .header__columns {
+  --padding-block-start: var(--salon-header-pad-top);
+  --padding-block-end: var(--salon-header-pad-bottom);
   align-items: center;
-  padding-block: var(--salon-header-pad-top) var(--salon-header-pad-bottom);
+  padding-block: var(--salon-header-pad-top) var(--salon-header-pad-bottom) !important;
   transition: padding 0.55s var(--salon-ease);
 }
 
@@ -247,6 +256,8 @@ body.template-index.is-past-hero
 
 @media (prefers-reduced-motion: reduce) {
   #header-component .header__columns,
+  #header-component[data-menu-style='drawer'] .header__columns,
+  #header-component[data-menu-style='drawer'] .header__row--top .header__columns,
   #header-component .header-logo__image,
   #header-component .header-logo__image-container .header-logo__image {
     transition: none;
