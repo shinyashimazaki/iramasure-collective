@@ -26,59 +26,81 @@
       data-home-location-gallery
       aria-label="{{ section.settings.heading | default: 'Visit the Shop' | escape }}"
     >
-      <div class="home-location__track" data-home-location-track>
-        {% if use_fallback %}
-          {% for handle in fallback_slides %}
-            <figure class="home-location__slide" data-home-location-slide>
-              <picture>
-                <source
-                  srcset="{{ handle | append: '.webp' | asset_url }}"
-                  type="image/webp"
-                  width="615"
-                  height="900"
-                >
-                <img
-                  class="home-location__image"
-                  src="{{ handle | append: '.jpg' | asset_url }}"
-                  alt="{{ section.settings.heading | default: 'Shop' | escape }}"
-                  width="615"
-                  height="900"
-                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                  {% if forloop.first %}fetchpriority="high"{% endif %}
-                  decoding="async"
-                >
-              </picture>
-            </figure>
-          {% endfor %}
-        {% else %}
-          {% for block in section.blocks %}
-            {% if block.type == 'slide' and block.settings.image != blank %}
-              {% liquid
-                if forloop.first
-                  assign slide_loading = 'eager'
-                else
-                  assign slide_loading = 'lazy'
-                endif
-                assign slide_alt = block.settings.alt | default: section.settings.heading
-              %}
-              <figure class="home-location__slide" data-home-location-slide {{ block.shopify_attributes }}>
-                {{
-                  block.settings.image
-                  | image_url: width: 900
-                  | image_tag:
-                    class: 'home-location__image',
-                    widths: '400, 615, 900',
-                    sizes: '(min-width: 750px) 280px, 70vw',
-                    alt: slide_alt,
-                    loading: slide_loading
-                }}
+      {% if slide_count > 1 %}
+        <button
+          type="button"
+          class="home-location__nav home-location__nav--prev"
+          data-home-location-prev
+          aria-label="{{ 'accessibility.slideshow_previous' | t }}"
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+      {% endif %}
+
+      <div class="home-location__viewport">
+        <div class="home-location__track" data-home-location-track>
+          {% if use_fallback %}
+            {% for handle in fallback_slides %}
+              <figure class="home-location__slide" data-home-location-slide>
+                <picture>
+                  <source
+                    srcset="{{ handle | append: '.webp' | asset_url }}"
+                    type="image/webp"
+                    width="700"
+                    height="1024"
+                  >
+                  <img
+                    class="home-location__image"
+                    src="{{ handle | append: '.jpg' | asset_url }}"
+                    alt="{{ section.settings.heading | default: 'Shop' | escape }}"
+                    width="700"
+                    height="1024"
+                    loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                    {% if forloop.first %}fetchpriority="high"{% endif %}
+                    decoding="async"
+                  >
+                </picture>
               </figure>
-            {% endif %}
-          {% endfor %}
-        {% endif %}
+            {% endfor %}
+          {% else %}
+            {% for block in section.blocks %}
+              {% if block.type == 'slide' and block.settings.image != blank %}
+                {% liquid
+                  if forloop.first
+                    assign slide_loading = 'eager'
+                  else
+                    assign slide_loading = 'lazy'
+                  endif
+                  assign slide_alt = block.settings.alt | default: section.settings.heading
+                %}
+                <figure class="home-location__slide" data-home-location-slide {{ block.shopify_attributes }}>
+                  {{
+                    block.settings.image
+                    | image_url: width: 1400
+                    | image_tag:
+                      class: 'home-location__image',
+                      widths: '700, 1000, 1400',
+                      sizes: '(min-width: 750px) 420px, 70vw',
+                      alt: slide_alt,
+                      loading: slide_loading
+                  }}
+                </figure>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
       </div>
 
       {% if slide_count > 1 %}
+        <button
+          type="button"
+          class="home-location__nav home-location__nav--next"
+          data-home-location-next
+          aria-label="{{ 'accessibility.slideshow_next' | t }}"
+        >
+          <span aria-hidden="true">›</span>
+        </button>
+
         <div class="home-location__dots" role="tablist" aria-label="{{ 'accessibility.slideshow' | t }}">
           {% for i in (1..slide_count) %}
             <button
@@ -164,6 +186,10 @@
     margin-inline: auto;
   }
 
+  .home-location__viewport {
+    overflow: hidden;
+  }
+
   .home-location__track {
     display: flex;
     gap: 0.75rem;
@@ -180,18 +206,12 @@
   }
 
   .home-location__slide {
-    flex: 0 0 min(70vw, 17.5rem);
+    flex: 0 0 min(72vw, 20rem);
     margin: 0;
     scroll-snap-align: start;
-    aspect-ratio: 2 / 3;
+    aspect-ratio: 700 / 1024;
     overflow: hidden;
     background: #f0eeea;
-  }
-
-  @media screen and (min-width: 750px) {
-    .home-location__slide {
-      flex-basis: min(28vw, 17.5rem);
-    }
   }
 
   .home-location__image,
@@ -201,6 +221,10 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .home-location__nav {
+    display: none;
   }
 
   .home-location__dots {
@@ -223,6 +247,74 @@
 
   .home-location__dot.is-active {
     background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.85);
+  }
+
+  @media screen and (min-width: 750px) {
+    .home-location__gallery {
+      width: min(100% - 2 * var(--page-margin, 1.5rem), 26rem);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        'prev viewport next'
+        'dots dots dots';
+      align-items: center;
+      column-gap: 0.75rem;
+      row-gap: 1.25rem;
+    }
+
+    .home-location__viewport {
+      grid-area: viewport;
+      overflow: hidden;
+    }
+
+    .home-location__track {
+      gap: 0;
+      padding-inline: 0;
+      scroll-padding-inline: 0;
+      scroll-snap-type: x mandatory;
+    }
+
+    .home-location__slide {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+    }
+
+    .home-location__nav {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-size: 1.75rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .home-location__nav:disabled {
+      opacity: 0.28;
+      cursor: default;
+    }
+
+    .home-location__nav--prev {
+      grid-area: prev;
+    }
+
+    .home-location__nav--next {
+      grid-area: next;
+    }
+
+    .home-location__dots {
+      grid-area: dots;
+      margin-top: 0;
+      padding-inline: 0;
+    }
   }
 
   .home-location__grid {
