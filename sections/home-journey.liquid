@@ -40,7 +40,7 @@
                 | image_tag:
                   class: 'home-journey__image',
                   widths: '600, 900, 1200, 1600',
-                  sizes: '(min-width: 900px) 30vw, 78vw',
+                  sizes: '(min-width: 750px) min(30rem, 32vw), 78vw',
                 loading: 'lazy',
                 alt: card_title
             }}
@@ -114,19 +114,22 @@
     color: inherit;
   }
 
-  /* Desktop: three cards centered, no carousel */
+  /* Desktop: three cards, same outer width as feature image */
   @media screen and (min-width: 750px) {
     .home-journey__track {
       justify-content: center;
-      max-width: min(72rem, calc(100% - 3rem));
+      width: min(90rem, calc(100% - (var(--page-margin, 1.5rem) * 2)));
+      max-width: 100%;
       margin-inline: auto;
+      padding-inline: 0;
+      gap: clamp(1rem, 1.8vw, 1.75rem);
       overflow: visible;
       cursor: default;
     }
 
     .home-journey__card {
       flex: 1 1 0;
-      max-width: 22rem;
+      max-width: none;
       min-width: 0;
     }
 
