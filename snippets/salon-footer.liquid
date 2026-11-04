@@ -23,8 +23,7 @@
           </span>
         </a>
         <div class="salon-footer__card-detail">
-          {{ 'home.footer.shop_address_html' | t }}
-          {{ 'home.footer.shop_hours_html' | t }}
+          <p>{{ 'home.footer.card_shop_detail' | t }}</p>
         </div>
       </div>
 
@@ -80,15 +79,10 @@
 
       <div class="salon-footer__nav-col">
         <p class="salon-footer__nav-title">{{ 'home.footer.nav_info' | t }}</p>
-        <ul class="salon-footer__nav-list">
-          {% for policy in shop.policies %}
-            {% if policy != blank %}
-              <li>
-                <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
+        <div class="salon-footer__nav-detail">
+          {{ 'home.footer.shop_address_html' | t }}
+          {{ 'home.footer.shop_hours_html' | t }}
+        </div>
       </div>
 
       <div class="salon-footer__nav-col">

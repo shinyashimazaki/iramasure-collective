@@ -117,6 +117,20 @@
   list-style: none;
 }
 
+.salon-footer__nav-detail {
+  color: var(--salon-footer-muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.salon-footer__nav-detail p {
+  margin: 0 0 0.85rem;
+}
+
+.salon-footer__nav-detail p:last-child {
+  margin-bottom: 0;
+}
+
 .salon-footer__nav-list a,
 .salon-footer__legal a,
 .salon-footer__top {
