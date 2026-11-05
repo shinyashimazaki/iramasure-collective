@@ -113,8 +113,8 @@
       "settings": {
         "color_scheme": "scheme-1",
         "body": "<p>We do not simply keep the same shelf forever.</p><p>With each season and each encounter, we look for new makers and the next fine goods.</p><p>When curiosity stirs, begin the journey.</p>",
-        "button_label": "Visit the Shop",
-        "button_link": "/pages/shop"
+        "button_label": "Shop all",
+        "button_link": "shopify://collections/all"
       }
     },
     "home_location": {

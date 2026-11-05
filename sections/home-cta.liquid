@@ -6,9 +6,16 @@
       </div>
     {% endif %}
 
-    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-      <a class="home-cta__button" href="{{ section.settings.button_link }}">
-        {{ section.settings.button_label | escape }}
+    {% liquid
+      assign cta_label = 'home.cta.button_label' | t
+      if cta_label == blank or cta_label == 'home.cta.button_label'
+        assign cta_label = section.settings.button_label
+      endif
+      assign cta_link = section.settings.button_link | default: routes.all_products_collection_url
+    %}
+    {% if cta_label != blank and cta_link != blank %}
+      <a class="home-cta__button" href="{{ cta_link }}">
+        {{ cta_label | escape }}
       </a>
     {% endif %}
   </div>
@@ -83,13 +90,15 @@
     {
       "type": "text",
       "id": "button_label",
-      "label": "Button label",
-      "default": "Shopを見る"
+      "label": "Button label fallback",
+      "default": "Shop all",
+      "info": "Used only if locale home.cta.button_label is missing."
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button link"
+      "label": "Button link",
+      "info": "Defaults to the All collection when blank."
     }
   ],
   "presets": [
