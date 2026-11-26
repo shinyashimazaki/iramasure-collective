@@ -53,6 +53,11 @@
             assign slide_image = settings[image_id]
             assign slide_mobile = settings[mobile_id]
             assign slide_credit = settings[credit_id]
+            if slide_credit != blank
+              unless slide_credit contains 'Photographer by'
+                assign slide_credit = 'Photographer by ' | append: slide_credit
+              endunless
+            endif
           %}
           {% if slide_image != blank %}
             {% liquid
@@ -127,7 +132,10 @@
               assign slide_priority = 'high'
             endif
             assign credit_id = 'brand_slide_' | append: forloop.index | append: '_photographer'
-            assign slide_credit = settings[credit_id]
+            assign slide_credit = settings[credit_id] | default: 'YUTO YAMADA'
+            unless slide_credit contains 'Photographer by'
+              assign slide_credit = 'Photographer by ' | append: slide_credit
+            endunless
             assign desktop_webp = handle | append: '-desktop.webp'
             assign desktop_jpg = handle | append: '-desktop.jpg'
             assign mobile_webp = handle | append: '-mobile.webp'
@@ -221,12 +229,19 @@
         assign first_photographer = ''
         if settings.brand_slide_1_photographer != blank
           assign first_photographer = settings.brand_slide_1_photographer
-        elsif use_settings == false and use_assets == false and section != blank
+        elsif use_assets
+          assign first_photographer = 'YUTO YAMADA'
+        elsif use_settings == false and section != blank
           for block in section.blocks
             if forloop.first and block.settings.photographer != blank
               assign first_photographer = block.settings.photographer
             endif
           endfor
+        endif
+        if first_photographer != blank
+          unless first_photographer contains 'Photographer by'
+            assign first_photographer = 'Photographer by ' | append: first_photographer
+          endunless
         endif
       %}
       <p
