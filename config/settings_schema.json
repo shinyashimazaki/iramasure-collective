@@ -12,12 +12,17 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Homepage hero photos. Managed in one place for the fixed hero experience."
+        "content": "Homepage hero photos. Leave blank to use the built-in desktop/mobile crops. Upload both desktop and mobile when replacing a slide."
       },
       {
         "type": "image_picker",
         "id": "brand_slide_1",
-        "label": "Slide 1"
+        "label": "Slide 1 desktop"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_1_mobile",
+        "label": "Slide 1 mobile"
       },
       {
         "type": "text",
@@ -27,7 +32,12 @@
       {
         "type": "image_picker",
         "id": "brand_slide_2",
-        "label": "Slide 2"
+        "label": "Slide 2 desktop"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_2_mobile",
+        "label": "Slide 2 mobile"
       },
       {
         "type": "text",
@@ -37,7 +47,12 @@
       {
         "type": "image_picker",
         "id": "brand_slide_3",
-        "label": "Slide 3"
+        "label": "Slide 3 desktop"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_3_mobile",
+        "label": "Slide 3 mobile"
       },
       {
         "type": "text",
@@ -47,7 +62,12 @@
       {
         "type": "image_picker",
         "id": "brand_slide_4",
-        "label": "Slide 4"
+        "label": "Slide 4 desktop"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_slide_4_mobile",
+        "label": "Slide 4 mobile"
       },
       {
         "type": "text",
